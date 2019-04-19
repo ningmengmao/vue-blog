@@ -26,7 +26,8 @@ public class CommentVO {
         this.userUrl = comment.getUserUrl();
         this.originalCommentId = comment.getOriginalCommentId();
         this.floorNumber = comment.getFloorNumber();
-        this.articleId = comment.getArticle().getId();
+//        this.articleId = comment.getArticle().getId();
+        //todo 关联
     }
 
     @Override

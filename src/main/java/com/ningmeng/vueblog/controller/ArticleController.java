@@ -16,19 +16,13 @@ import java.util.List;
 @RestController
 public class ArticleController {
 
-    private ArticleService articleService;
 
     @GetMapping("/articles/{pageNum}")
     public List<ArticleVO> getArticleByPageNum(@PathVariable("pageNum") Integer number){
-        if (number < 1)
-            return new ArrayList<>();
-        Page<ArticleVO> articles = articleService.getArticles();
-        return articles.getOnePage(number);
+        //todo
+        return null;
     }
 
 
-    @Autowired
-    public void setArticleService(ArticleService articleService){
-        this.articleService = articleService;
-    }
+
 }

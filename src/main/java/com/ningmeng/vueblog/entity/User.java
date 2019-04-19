@@ -1,20 +1,15 @@
 package com.ningmeng.vueblog.entity;
 
-import com.ningmeng.vueblog.vo.UserVO;
-import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.ningmeng.vueblog.vo.UserVO;
+
 import java.io.Serializable;
 
-@Table(name = "b_user")
-@Entity
+@JsonIdentityInfo(property = "userId",generator = ObjectIdGenerators.PropertyGenerator.class )
 public class User implements Serializable {
 
-    @GeneratedValue
-    @Id
     private Integer id;
     private String username;
     private String userUrl;

@@ -1,40 +1,27 @@
 package com.ningmeng.vueblog.entity;
 
-import com.fasterxml.jackson.annotation.*;
-import com.ningmeng.vueblog.vo.CommentVO;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.Proxy;
-import org.springframework.context.annotation.Lazy;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.ningmeng.vueblog.vo.CommentVO;
+
 import java.io.Serializable;
 
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="commentId", scope = Comment.class)
-//@JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Table(name = "b_comment")
-@Entity
-//@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler", "fieldHandler", "PersistentSet"})
+@JsonIdentityInfo(property = "commentId",generator = ObjectIdGenerators.PropertyGenerator.class )
 public class Comment implements Serializable {
 
-    @GeneratedValue
-    @Id
     private Integer id;
     private String content;
-
     private Long createTime;
     private String username;
     private String userId;
-
     private String userThumbnailUrl; //头像url
     private String userUrl; //github url
     private Integer originalCommentId; //父评论id
-
     private Integer floorNumber;  //评论楼层数
 
-
-    @ManyToOne( fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinColumn(name = "article_id")
+    @TableField(exist = false)
     private Article article;
 
     public Comment() {

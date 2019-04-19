@@ -16,8 +16,7 @@ public class TagVO {
     public TagVO(Tag tag){
         this.id = tag.getId();
         this.tagName = tag.getTagName();
-        for (Article article : tag.getArticles())
-            this.articles.add(article.getId());
+        // todo 关联
     }
 
     @Override

@@ -32,10 +32,11 @@ public class ArticleVO {
         this.createTime = article.getCreateTime();
         this.updateTime = article.getUpdateTime();
         this.isTop = article.getTop();
-        for (Tag tag : article.getTags())
-            this.tags.add(tag.getId());
-        for (Comment comment : article.getComments())
-            this.comments.add(comment.getId());
+//        for (Tag tag : article.getTags())
+//            this.tags.add(tag.getId());
+//        for (Comment comment : article.getComments())
+//            this.comments.add(comment.getId());
+        //todo 关联
     }
 
     @Override

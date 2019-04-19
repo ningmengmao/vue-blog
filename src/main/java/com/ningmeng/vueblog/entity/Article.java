@@ -1,54 +1,31 @@
 package com.ningmeng.vueblog.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ningmeng.vueblog.vo.ArticleVO;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Proxy;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
-
-
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="articleId", scope = Article.class)
-//@JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Table(name = "b_article")
-@Entity
-//@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler", "fieldHandler", "PersistentSet"})
+@JsonIdentityInfo(property = "articleID",generator = ObjectIdGenerators.PropertyGenerator.class )
 public class Article implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
     private Integer id;
-
     private String title;
-
-    @Column(name = "abstract")
+    @TableField(value = "abstract")
     private String articleAbstract;
     private String content;
     private Integer views;
-
-    @Column(name = "create_time")
     private Long createTime;
-
-    @Column(name = "update_time")
     private Long updateTime;
-
-    @Column(name = "is_top")
     private Boolean isTop;
 
-    @ManyToMany(targetEntity = Tag.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "b_article_tag",
-            joinColumns = { @JoinColumn(name = "article_id", referencedColumnName = "id")},
-            inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "id") }
-    )
-    private Set<Tag> tags = new HashSet<>();
+    @TableField(exist = false)
+    private Set<Comment> commentSet;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Comment> comments = new HashSet<>();
+    @TableField(exist = false)
+    private Set<Tag> tagSet;
 
     public Article() {
     }
@@ -87,20 +64,20 @@ public class Article implements Serializable {
                 '}';
     }
 
-    public Set<Comment> getComments() {
-        return comments;
+    public Set<Comment> getCommentSet() {
+        return commentSet;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
+    public Set<Tag> getTagSet() {
+        return tagSet;
     }
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
+    public void setTagSet(Set<Tag> tagSet) {
+        this.tagSet = tagSet;
     }
 
     public Integer getId() {

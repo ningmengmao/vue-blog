@@ -1,20 +1,14 @@
 package com.ningmeng.vueblog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ningmeng.vueblog.vo.LinkVO;
-import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 
-@Table(name = "b_link")
-@Entity
+@JsonIdentityInfo(property = "linkId",generator = ObjectIdGenerators.PropertyGenerator.class )
 public class Link implements Serializable {
 
-    @GeneratedValue
-    @Id
     private Integer id;
     private String url;
     private String description;
