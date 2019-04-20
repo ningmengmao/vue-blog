@@ -6,6 +6,9 @@ mybatis-plus:
     db-config:
       id-type: auto
       table-prefix: b_
+  mapper-locations: classpath*:mapper/*.xml
+
+
 
 spring:
   datasource:

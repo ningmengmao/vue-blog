@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningmeng.vueblog.mapper.ArticleMapper">
+    <resultMap id="baseArticle" type="com.ningmeng.vueblog.entity.Article">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="abstract" property="articleAbstract"/>
+        <result column="content" property="content"/>
+        <result column="views" property="views"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_top" property="isTop" javaType="boolean"/>
+    </resultMap>
+
+    <resultMap id="article" type="com.ningmeng.vueblog.entity.Article" extends="baseArticle">
+        <collection property="commentSet" ofType="" >
+
+        </collection>
+        <collection property="tagSet" ofType="" select="" column="">
+
+        </collection>
+
+    </resultMap>
+
+    <sql id="base_sql">
+        id, title, abstract, content, views, create_time, update_time, is_top
+    </sql>
+
+    <select id="selectByTagId" resultType="com.ningmeng.vueblog.entity.Article" >
+        select
+        <include refid="base_sql"/>
+        from
+            b_article
+        where id in (
+            select article_id from b_article_tag where tag_id = #{id}
+        )
+    </select>
+
+</mapper>

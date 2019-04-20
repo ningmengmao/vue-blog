@@ -1,24 +1,27 @@
 package com.ningmeng.vueblog.service;
 
-import com.ningmeng.vueblog.vo.ArticleVO;
-import com.ningmeng.vueblog.vo.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.ningmeng.vueblog.entity.Article;
 
-public interface ArticleService {
+import java.util.List;
 
-
-    Page<ArticleVO> getArticles();
-
-    void update(ArticleVO articleVO);
-
-    void update(Iterable<ArticleVO> articlesVO);
-
-    ArticleVO findArticleVOById(int id);
-
-    Page<ArticleVO> findArticleVOByTagId(int id);
-
-    Page<ArticleVO> findArticleVOByYearAndMonth(int year, int month);
-
-    ArticleVO insert(ArticleVO articleVO);
+public interface ArticleService extends IService<Article> {
 
 
+    IPage<Article> getArticlesByPageNumber(int pageNum);
+
+    int update(Article article);
+
+    void update(Iterable<Article> articles);
+
+    Article findById(int id);
+
+    IPage<Article> findByTagId(int id);
+
+    IPage<Article> findByYearAndMonth(int year, int month);
+
+    Article insert(Article article);
+
+    List<Article> findById(Iterable<Integer> ids);
 }
