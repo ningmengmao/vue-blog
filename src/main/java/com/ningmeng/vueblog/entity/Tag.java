@@ -9,7 +9,7 @@ import com.ningmeng.vueblog.vo.TagVO;
 import java.io.Serializable;
 import java.util.Set;
 
-@JsonIdentityInfo(property = "tagId",generator = ObjectIdGenerators.PropertyGenerator.class )
+@JsonIdentityInfo(property = "tagId",generator =  ObjectIdGenerators.IntSequenceGenerator.class )
 public class Tag implements Serializable {
 
     private Integer id;

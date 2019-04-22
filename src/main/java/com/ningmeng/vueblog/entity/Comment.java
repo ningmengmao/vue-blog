@@ -8,7 +8,7 @@ import com.ningmeng.vueblog.vo.CommentVO;
 
 import java.io.Serializable;
 
-@JsonIdentityInfo(property = "commentId",generator = ObjectIdGenerators.PropertyGenerator.class )
+@JsonIdentityInfo(property = "id",generator =  ObjectIdGenerators.IntSequenceGenerator.class )
 public class Comment implements Serializable {
 
     private Integer id;
@@ -20,9 +20,7 @@ public class Comment implements Serializable {
     private String userUrl; //github url
     private Integer originalCommentId; //父评论id
     private Integer floorNumber;  //评论楼层数
-
-    @TableField(exist = false)
-    private Article article;
+    private int articleId;
 
     public Comment() {
     }
@@ -51,6 +49,7 @@ public class Comment implements Serializable {
                 ", userUrl='" + userUrl + '\'' +
                 ", originalCommentId=" + originalCommentId +
                 ", floorNumber=" + floorNumber +
+                ", articleId=" + articleId +
                 '}';
     }
 
@@ -65,12 +64,12 @@ public class Comment implements Serializable {
         this.floorNumber = floorNumber;
     }
 
-    public Article getArticle() {
-        return article;
+    public int getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
     }
 
     public Integer getFloorNumber() {

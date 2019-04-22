@@ -13,7 +13,6 @@ import java.util.List;
 
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.ningmeng.vueblog.mapper")
 public class MybatisPlusConfig {
 
     @Bean

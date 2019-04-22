@@ -8,4 +8,6 @@ import java.util.List;
 public interface ArticleMapper extends BaseMapper<Article> {
 
     List<Article> selectByTagId(int id);
+
+    Article selectByArticleId(int id);
 }

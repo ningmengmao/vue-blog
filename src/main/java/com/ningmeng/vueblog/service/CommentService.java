@@ -6,7 +6,7 @@ import com.ningmeng.vueblog.entity.Comment;
 
 import java.util.List;
 
-public interface CommentService extends IService<Comment> {
+public interface CommentService  {
 
     IPage<Comment> getAllCommentsByArticleId(int id);
 

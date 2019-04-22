@@ -8,7 +8,7 @@ import com.ningmeng.vueblog.vo.ArticleVO;
 import java.io.Serializable;
 import java.util.Set;
 
-@JsonIdentityInfo(property = "articleID",generator = ObjectIdGenerators.PropertyGenerator.class )
+@JsonIdentityInfo(property = "articleId",generator =  ObjectIdGenerators.IntSequenceGenerator.class)
 public class Article implements Serializable {
 
     private Integer id;

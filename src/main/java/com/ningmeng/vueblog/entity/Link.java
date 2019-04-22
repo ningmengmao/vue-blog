@@ -6,7 +6,7 @@ import com.ningmeng.vueblog.vo.LinkVO;
 
 import java.io.Serializable;
 
-@JsonIdentityInfo(property = "linkId",generator = ObjectIdGenerators.PropertyGenerator.class )
+@JsonIdentityInfo(property = "linkId",generator =  ObjectIdGenerators.IntSequenceGenerator.class )
 public class Link implements Serializable {
 
     private Integer id;

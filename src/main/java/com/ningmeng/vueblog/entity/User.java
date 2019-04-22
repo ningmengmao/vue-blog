@@ -7,7 +7,7 @@ import com.ningmeng.vueblog.vo.UserVO;
 
 import java.io.Serializable;
 
-@JsonIdentityInfo(property = "userId",generator = ObjectIdGenerators.PropertyGenerator.class )
+@JsonIdentityInfo(property = "userId",generator =  ObjectIdGenerators.IntSequenceGenerator.class )
 public class User implements Serializable {
 
     private Integer id;

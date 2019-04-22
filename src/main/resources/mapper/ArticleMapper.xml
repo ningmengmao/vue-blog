@@ -14,28 +14,54 @@
         <result column="is_top" property="isTop" javaType="boolean"/>
     </resultMap>
 
+    <resultMap id="base_view_article" type="com.ningmeng.vueblog.entity.Article">
+        <id column="article_id" property="id"/>
+        <result column="article_title" property="title"/>
+        <result column="article_abstarct" property="articleAbstract"/>
+        <result column="article_content" property="content"/>
+        <result column="article_views" property="views"/>
+        <result column="article_create_time" property="createTime"/>
+        <result column="article_update_time" property="updateTime"/>
+        <result column="article_is_top" property="isTop" javaType="boolean"/>
+    </resultMap>
+
+    <resultMap id="views_article" type="com.ningmeng.vueblog.entity.Article" extends="base_view_article">
+        <collection property="commentSet" ofType="com.ningmeng.vueblog.entity.Comment"
+                    select="com.ningmeng.vueblog.mapper.CommentMapper.selectByArticleId" column="article_id">
+        </collection>
+        <collection property="tagSet" ofType="com.ningmeng.vueblog.entity.Tag">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
     <resultMap id="article" type="com.ningmeng.vueblog.entity.Article" extends="baseArticle">
-        <collection property="commentSet" ofType="" >
-
+        <collection property="commentSet" ofType="com.ningmeng.vueblog.entity.Comment"
+                    select="com.ningmeng.vueblog.mapper.CommentMapper.selectByArticleId" column="id">
         </collection>
-        <collection property="tagSet" ofType="" select="" column="">
-
+        <collection property="tagSet" ofType="com.ningmeng.vueblog.entity.Tag"
+                    select="com.ningmeng.vueblog.mapper.TagMapper.selectByArticleId" column="id">
         </collection>
-
     </resultMap>
 
     <sql id="base_sql">
         id, title, abstract, content, views, create_time, update_time, is_top
     </sql>
 
-    <select id="selectByTagId" resultType="com.ningmeng.vueblog.entity.Article" >
-        select
-        <include refid="base_sql"/>
-        from
-            b_article
-        where id in (
-            select article_id from b_article_tag where tag_id = #{id}
-        )
+    <sql id="view_sql">
+        article_id, article_title, article_abstarct, article_content, article_views, article_update_time, article_create_time,
+        article_is_top, tag_id, tag_name
+    </sql>
+
+    <select id="selectByTagId" resultMap="views_article" >
+        select * from v_article_tag where tag_id = #{id}
     </select>
+
+    <select id="selectByArticleId" resultMap="article">
+        select * from b_article where id = #{id}
+    </select>
+
+
+
 
 </mapper>
