@@ -10,21 +10,18 @@ public class TagVO {
 
     private Integer id;
     private String tagName;
-    private Set<Integer> articles = new HashSet<>();
     public TagVO(){}
 
     public TagVO(Tag tag){
         this.id = tag.getId();
         this.tagName = tag.getTagName();
-        // todo 关联
     }
 
     @Override
     public String toString() {
         return "TagVO{" +
                 "id=" + id +
-                ", tagName='" + tagName + '\'' +
-                ", articles=" + articles +
+                ", tagName='" + tagName +
                 '}';
     }
 
@@ -44,11 +41,4 @@ public class TagVO {
         this.tagName = tagName;
     }
 
-    public Set getArticles() {
-        return articles;
-    }
-
-    public void setArticles(Set articles) {
-        this.articles = articles;
-    }
 }

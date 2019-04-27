@@ -10,6 +10,7 @@ mybatis-plus:
 
 
 
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/newblog?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
@@ -64,5 +65,5 @@ logging:
     tomcat: info
     org.springframework: info
     com.ningmeng.vueblog.mapper: debug
-    com.ningmeng: info
+    com.ningmeng.vueblog.service: debug
 

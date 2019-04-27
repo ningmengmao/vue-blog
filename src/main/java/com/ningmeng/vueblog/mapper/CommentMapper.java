@@ -9,4 +9,8 @@ import java.util.List;
 public interface CommentMapper extends BaseMapper<Comment> {
 
     List<Comment> selectByArticleId(int id);
+
+    Comment selectByCommentId(int id);
+
+    int insertComment(Comment comment);
 }

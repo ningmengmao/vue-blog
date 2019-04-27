@@ -3,7 +3,7 @@
         "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ningmeng.vueblog.mapper.ArticleMapper">
-    <resultMap id="baseArticle" type="com.ningmeng.vueblog.entity.Article">
+    <resultMap id="base_article" type="com.ningmeng.vueblog.entity.Article">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="abstract" property="articleAbstract"/>
@@ -14,35 +14,16 @@
         <result column="is_top" property="isTop" javaType="boolean"/>
     </resultMap>
 
-    <resultMap id="base_view_article" type="com.ningmeng.vueblog.entity.Article">
-        <id column="article_id" property="id"/>
-        <result column="article_title" property="title"/>
-        <result column="article_abstarct" property="articleAbstract"/>
-        <result column="article_content" property="content"/>
-        <result column="article_views" property="views"/>
-        <result column="article_create_time" property="createTime"/>
-        <result column="article_update_time" property="updateTime"/>
-        <result column="article_is_top" property="isTop" javaType="boolean"/>
-    </resultMap>
-
-    <resultMap id="views_article" type="com.ningmeng.vueblog.entity.Article" extends="base_view_article">
-        <collection property="commentSet" ofType="com.ningmeng.vueblog.entity.Comment"
-                    select="com.ningmeng.vueblog.mapper.CommentMapper.selectByArticleId" column="article_id">
-        </collection>
-        <collection property="tagSet" ofType="com.ningmeng.vueblog.entity.Tag">
-            <id column="tag_id" property="id"/>
-            <result column="tag_name" property="tagName"/>
-        </collection>
-    </resultMap>
-
-    <resultMap id="article" type="com.ningmeng.vueblog.entity.Article" extends="baseArticle">
+    <resultMap id="article" type="com.ningmeng.vueblog.entity.Article" extends="base_article">
         <collection property="commentSet" ofType="com.ningmeng.vueblog.entity.Comment"
                     select="com.ningmeng.vueblog.mapper.CommentMapper.selectByArticleId" column="id">
         </collection>
+
         <collection property="tagSet" ofType="com.ningmeng.vueblog.entity.Tag"
                     select="com.ningmeng.vueblog.mapper.TagMapper.selectByArticleId" column="id">
         </collection>
     </resultMap>
+
 
     <sql id="base_sql">
         id, title, abstract, content, views, create_time, update_time, is_top
@@ -53,13 +34,92 @@
         article_is_top, tag_id, tag_name
     </sql>
 
-    <select id="selectByTagId" resultMap="views_article" >
-        select * from v_article_tag where tag_id = #{id}
-    </select>
+    <sql id="my_select">
+        select ba.id id, ba.title title, ba.abstract abstract, ba.content content, ba.views views,
+            ba.create_time create_time, ba.update_time update_time, ba.is_top is_top,
+            bc.id comment_id, bat.tag_id tag_id
+        from b_article as ba
+        left outer join b_comment as bc on ba.id = bc.article_id
+        left outer join b_article_tag as bat on ba.id = bat.article_id
+    </sql>
 
     <select id="selectByArticleId" resultMap="article">
-        select * from b_article where id = #{id}
+        select <include refid="base_sql"></include>
+        from b_article
+        where id = #{id}
     </select>
+
+    <select id="selectByTagId" resultMap="article">
+        select id, title, abstract, content, views, create_time, update_time, is_top
+        from b_article
+        where id in (
+            select article_id
+            from b_article_tag
+            where tag_id = #{id}
+        )
+    </select>
+
+    <select id="findByUpdateTimeBetween" resultMap="article">
+        select <include refid="base_sql"></include>
+        from b_article
+        where update_time between #{begin} and #{end}
+        order by update_time desc
+    </select>
+
+    <select id="findByCreateTimeBetween" resultMap="article">
+        select <include refid="base_sql"></include>
+        from b_article
+        where create_time between #{begin} and #{end}
+        order by create_time desc
+    </select>
+
+    <select id="selectByPage" resultMap="article">
+        select <include refid="base_sql"></include>
+        from b_article
+        order by update_time desc
+    </select>
+
+
+
+<!--    <resultMap id="base_view_article" type="com.ningmeng.vueblog.entity.Article">-->
+<!--        <id column="article_id" property="id"/>-->
+<!--        <result column="article_title" property="title"/>-->
+<!--        <result column="article_abstarct" property="articleAbstract"/>-->
+<!--        <result column="article_content" property="content"/>-->
+<!--        <result column="article_views" property="views"/>-->
+<!--        <result column="article_create_time" property="createTime"/>-->
+<!--        <result column="article_update_time" property="updateTime"/>-->
+<!--        <result column="article_is_top" property="isTop" javaType="boolean"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="views_article" type="com.ningmeng.vueblog.entity.Article" extends="base_view_article">-->
+<!--        <collection property="commentSet" ofType="com.ningmeng.vueblog.entity.Comment"-->
+<!--                    select="com.ningmeng.vueblog.mapper.CommentMapper.selectByArticleId" column="article_id">-->
+<!--        </collection>-->
+<!--        <collection property="tagSet" ofType="com.ningmeng.vueblog.entity.Tag">-->
+<!--            <id column="tag_id" property="id"/>-->
+<!--            <result column="tag_name" property="tagName"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="article" type="com.ningmeng.vueblog.entity.Article" extends="baseArticle">-->
+<!--        <collection property="commentSet" ofType="com.ningmeng.vueblog.entity.Comment"-->
+<!--                    select="com.ningmeng.vueblog.mapper.CommentMapper.selectByArticleId" column="id">-->
+<!--        </collection>-->
+<!--        <collection property="tagSet" ofType="com.ningmeng.vueblog.entity.Tag"-->
+<!--                    select="com.ningmeng.vueblog.mapper.TagMapper.selectByArticleId" column="id">-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <select id="selectByTagId" resultMap="views_article" >-->
+<!--        select * from v_article_tag where tag_id = #{id}-->
+<!--    </select>-->
+
+<!--    <select id="selectByArticleId" resultMap="article">-->
+<!--        select * from b_article where id = #{id}-->
+<!--    </select>-->
+
+
 
 
 

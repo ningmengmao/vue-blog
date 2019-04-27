@@ -2,11 +2,9 @@ package com.ningmeng.vueblog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.ningmeng.vueblog.vo.LinkVO;
 
 import java.io.Serializable;
 
-@JsonIdentityInfo(property = "linkId",generator =  ObjectIdGenerators.IntSequenceGenerator.class )
 public class Link implements Serializable {
 
     private Integer id;
@@ -23,12 +21,7 @@ public class Link implements Serializable {
         this.title = title;
     }
 
-    public Link(LinkVO linkVO){
-        this.id = linkVO.getId();
-        this.description = linkVO.getDescription();
-        this.url = linkVO.getUrl();
-        this.title = linkVO.getTitle();
-    }
+
 
     @Override
     public String toString() {

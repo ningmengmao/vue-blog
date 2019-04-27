@@ -1,12 +1,12 @@
 package com.ningmeng.vueblog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.ningmeng.vueblog.bo.ArticleBO;
 import com.ningmeng.vueblog.entity.Article;
 
 import java.util.List;
 
-public interface ArticleService extends IService<Article> {
+public interface ArticleService  {
 
 
     IPage<Article> getArticlesByPageNumber(int pageNum);
@@ -17,11 +17,15 @@ public interface ArticleService extends IService<Article> {
 
     Article findById(int id);
 
-    IPage<Article> findByTagId(int id);
+    IPage<Article> findByTagId(int id, int pageNum);
 
-    IPage<Article> findByYearAndMonth(int year, int month);
+    IPage<Article> findByYearAndMonth(int year, int month, int pageNum);
 
     Article insert(Article article);
 
     List<Article> findById(Iterable<Integer> ids);
+
+    int getArticleTotal();
+
+    int getArticleTotalByYearAndMonth(Integer year, Integer month);
 }

@@ -4,11 +4,11 @@ package com.ningmeng.vueblog.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.ningmeng.vueblog.vo.CommentVO;
+
 
 import java.io.Serializable;
 
-@JsonIdentityInfo(property = "id",generator =  ObjectIdGenerators.IntSequenceGenerator.class )
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="commentId", scope = Comment.class)
 public class Comment implements Serializable {
 
     private Integer id;
@@ -20,22 +20,14 @@ public class Comment implements Serializable {
     private String userUrl; //github url
     private Integer originalCommentId; //父评论id
     private Integer floorNumber;  //评论楼层数
-    private int articleId;
+
+    @TableField(exist = false)
+    private Article article;
 
     public Comment() {
     }
 
-    public Comment(CommentVO commentVO){
-        this.id = commentVO.getId();
-        this.content = commentVO.getContent();
-        this.createTime = commentVO.getCreateTime();
-        this.username = commentVO.getUsername();
-        this.userId = commentVO.getUserId();
-        this.userThumbnailUrl = commentVO.getUserThumbnailUrl();
-        this.userUrl = commentVO.getUserUrl();
-        this.originalCommentId = commentVO.getOriginalCommentId();
-        this.floorNumber = commentVO.getFloorNumber();
-    }
+
 
     @Override
     public String toString() {
@@ -49,7 +41,6 @@ public class Comment implements Serializable {
                 ", userUrl='" + userUrl + '\'' +
                 ", originalCommentId=" + originalCommentId +
                 ", floorNumber=" + floorNumber +
-                ", articleId=" + articleId +
                 '}';
     }
 
@@ -64,12 +55,12 @@ public class Comment implements Serializable {
         this.floorNumber = floorNumber;
     }
 
-    public int getArticleId() {
-        return articleId;
+    public Article getArticle() {
+        return article;
     }
 
-    public void setArticleId(int articleId) {
-        this.articleId = articleId;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     public Integer getFloorNumber() {

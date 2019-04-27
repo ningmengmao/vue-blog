@@ -4,7 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ningmeng.vueblog.mapper.CommentMapper">
 
-    <select id="selectByArticleId" resultType="com.ningmeng.vueblog.entity.Comment">
+    <resultMap id="base" type="com.ningmeng.vueblog.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <result column="username" property="username"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_thumbnail_url" property="userThumbnailUrl"/>
+        <result column="user_url" property="userUrl"/>
+        <result column="original_comment_id" property="originalCommentId"/>
+        <result column="floor_number" property="floorNumber"/>
+        <association property="article" javaType="com.ningmeng.vueblog.entity.Article"
+                     select="com.ningmeng.vueblog.mapper.ArticleMapper.selectByArticleId" column="article_id"></association>
+    </resultMap>
+
+    <select id="selectByArticleId" resultMap="base">
         select * from b_comment where article_id = #{id}
     </select>
 

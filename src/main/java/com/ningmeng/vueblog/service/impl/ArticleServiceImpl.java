@@ -1,63 +1,73 @@
 package com.ningmeng.vueblog.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import com.ningmeng.vueblog.entity.Article;
+import com.ningmeng.vueblog.entity.Comment;
+import com.ningmeng.vueblog.entity.Tag;
 import com.ningmeng.vueblog.mapper.ArticleMapper;
-import com.ningmeng.vueblog.mapper.TagMapper;
+import com.ningmeng.vueblog.mapper.ArticleTagMapper;
 import com.ningmeng.vueblog.service.ArticleService;
 import com.ningmeng.vueblog.service.CommentService;
 import com.ningmeng.vueblog.service.TagService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.*;
+import java.util.*;
 
-@Transactional
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Service
 @CacheConfig(cacheNames = "article")
-public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
+public class ArticleServiceImpl implements ArticleService {
+
+    private final static int PAGE_SIZE = 8;
 
     private ArticleMapper articleMapper;
+    private ArticleTagMapper articleTagMapper;
 
     private TagService tagService;
     private CommentService commentService;
 
     @Override
-    @Cacheable(cacheNames = "newsArticlePage" ,key = "#pageNum")
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "articlePage", key = "#pageNum")
     public IPage<Article> getArticlesByPageNumber(int pageNum) {
+        ArrayList<Article> articles = new ArrayList<>();
         if (pageNum < 1)
-            throw new RuntimeException("pageNumber 必须大于 0");
-        return articleMapper.selectPage(new Page<Article>(pageNum, 8),
-                new QueryWrapper<Article>()
-                        .orderByDesc("update_time")
-        );
+            throw new RuntimeException("页码必须大于0!!");
+
+        return articleMapper.selectByPage(new Page<Article>(pageNum, PAGE_SIZE));
     }
 
-    /**
-     * 只更新文章,不更新评论和tag
-     * @param article
-     * @return
-     */
     @Override
+    @Transactional
     @Caching(
             put = @CachePut(key = "#article.id"),
-            evict = @CacheEvict(cacheNames = "newsArticlePage", allEntries = true)
+            evict = {
+                    @CacheEvict(cacheNames = "articlePage", allEntries = true),
+                    @CacheEvict(cacheNames = "articleByTime", allEntries = true)
+            }
     )
     public int update(Article article) {
-        return articleMapper.updateById(article);
+        articleTagMapper.deleteByArticleId(article.getId());
+
+        int i = articleMapper.updateById(article);
+
+        // 维护中间表
+        for (Tag tag : article.getTagSet())
+            articleTagMapper.insert(article.getId(), tag.getId());
+        return i ;
     }
 
     @Override
+    @Transactional
     public void update(Iterable<Article> articles) {
         for (Article a : articles)
             update(a);
@@ -65,52 +75,64 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     @Cacheable(key = "#id")
+    @Transactional(readOnly = true)
     public Article findById(int id) {
-        // todo 维护关系
-        return articleMapper.selectById(id);
-    }
-
-    /**
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    @Cacheable(cacheNames = "findByTagId", key = "#id")
-    public IPage<Article> findByTagId(int id) {
-        List<Article> articles = articleMapper.selectByTagId(id);
-        Page<Article> articlePage = new Page<>(1, 8, articles.size());
-        articlePage.setRecords(articles);
-        return articlePage;
+        return articleMapper.selectByArticleId(id);
     }
 
     @Override
-    public IPage<Article> findByYearAndMonth(int year, int month) {
+    @Cacheable(cacheNames = "articlePageByTagId", key = "#id + '-' + #pageNum")
+    @Transactional(readOnly = true)
+    public IPage<Article> findByTagId(int id, int pageNum) {
+        if (pageNum < 1)
+            throw new RuntimeException("页码必须大于0!!");
+        return articleMapper.selectByTagId(new Page<Article>(pageNum, PAGE_SIZE), id);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "articleByTime", key = "#year + '-' + #month + '-' + #pageNum")
+    @Transactional(readOnly = true)
+    public IPage<Article> findByYearAndMonth(int year, int month, int pageNum) {
         int nextYear = year;
-        int nextMonth = month;
-        if ( month == 12){
-            nextMonth = 1;
+        int nextMonth = month + 1;
+        if (month == 12){
             nextYear += 1;
-        }
-        LocalDateTime begin = LocalDateTime.of(year, month, 1, 0, 0, 0);
-        LocalDateTime end = LocalDateTime.of(nextYear, nextMonth, 1, 0, 0, 0);
-        IPage<Article> articleIPage = articleMapper.selectPage(new Page<Article>(),
-                new QueryWrapper<Article>()
-                        .between("update_time", begin.toEpochSecond(ZoneOffset.ofHours(8)) * 1000, end.toEpochSecond(ZoneOffset.ofHours(8)) * 1000)
-                        .orderByDesc("update_time")
-        );
-        for (Article a : articleIPage.getRecords()){
-
+            nextMonth = 1;
         }
 
-
-        return null;
+        LocalDateTime begin = LocalDateTime.of(year, month, 1, 0, 0, 0, 0);
+        LocalDateTime end = LocalDateTime.of(nextYear, nextMonth, 1, 0, 0, 0, 0);
+        return articleMapper.findByUpdateTimeBetween(new Page(pageNum, 8), begin.toEpochSecond(ZoneOffset.ofHours(8)) * 1000, end.toEpochSecond(ZoneOffset.ofHours(8)) * 1000);
     }
 
     @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "articlePage", allEntries = true),
+                    @CacheEvict(cacheNames = "articlePageByTagId", allEntries = true),
+                    @CacheEvict(cacheNames = "articleByTime", allEntries = true)
+            }
+    )
+    @Transactional
     public Article insert(Article article) {
+        Instant now = Instant.now();
+        article.setUpdateTime(now.toEpochMilli());
+        article.setCreateTime(now.toEpochMilli());
 
-        return null;
+        articleMapper.insert(article);
+
+        int id = articleMapper.selectOne(new QueryWrapper<Article>()
+                .eq("title", article.getTitle())
+                .eq("create_time", article.getCreateTime())
+                .eq("update_time", article.getUpdateTime())
+                .eq("content", article.getContent())
+                .eq("abstract", article.getArticleAbstract())
+        ).getId();
+
+        // 维护中间表关系
+        for (Tag tag : article.getTagSet())
+            articleTagMapper.insert(id, tag.getId());
+        return findById(id);
     }
 
     @Override
@@ -119,6 +141,33 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         for (int i : ids)
             articles.add(findById(i));
         return articles;
+    }
+
+    @Override
+    public int getArticleTotal() {
+        return articleMapper.selectCount(new QueryWrapper<Article>());
+    }
+
+    @Override
+    public int getArticleTotalByYearAndMonth(Integer year, Integer month) {
+        int nextYear = year;
+        int nextMonth = month + 1;
+        if (month == 12){
+            nextYear += 1;
+            nextMonth = 1;
+        }
+
+        long begin = LocalDateTime.of(year, month, 1, 0, 0, 0, 0).toEpochSecond(ZoneOffset.ofHours(8)) * 1000L;
+        long end = LocalDateTime.of(nextYear, nextMonth, 1, 0, 0, 0, 0).toEpochSecond(ZoneOffset.ofHours(8)) * 1000L;
+
+        return articleMapper.selectCount( new QueryWrapper<Article>()
+            .between("update_time", begin, end)
+        );
+    }
+
+    @Autowired
+    public void setArticleTagMapper(ArticleTagMapper articleTagMapper) {
+        this.articleTagMapper = articleTagMapper;
     }
 
     @Autowired

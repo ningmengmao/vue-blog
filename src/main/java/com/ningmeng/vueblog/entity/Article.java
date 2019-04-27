@@ -3,13 +3,12 @@ package com.ningmeng.vueblog.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.ningmeng.vueblog.vo.ArticleVO;
+
 
 import java.io.Serializable;
 import java.util.Set;
 
-@JsonIdentityInfo(property = "articleId",generator =  ObjectIdGenerators.IntSequenceGenerator.class)
-public class Article implements Serializable {
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="articleId", scope = Article.class)public class Article implements Serializable {
 
     private Integer id;
     private String title;
@@ -39,16 +38,6 @@ public class Article implements Serializable {
         this.isTop = isTop;
     }
 
-    public Article(ArticleVO articleVO){
-        this.id = articleVO.getId();
-        this.title = articleVO.getTitle();
-        this.articleAbstract = articleVO.getArticleAbstract();
-        this.content = articleVO.getContent();
-        this.views = articleVO.getViews();
-        this.createTime = articleVO.getCreateTime();
-        this.updateTime = articleVO.getUpdateTime();
-        this.isTop = articleVO.getTop();
-    }
 
     @Override
     public String toString() {

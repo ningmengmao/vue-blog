@@ -1,12 +1,14 @@
-package com.ningmeng.vueblog.vo;
+package com.ningmeng.vueblog.bo;
 
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 import com.ningmeng.vueblog.entity.Tag;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-public class ArticleVO {
+public class ArticleBO implements Serializable {
 
     private Integer id;
     private String title;
@@ -16,13 +18,12 @@ public class ArticleVO {
     private Long createTime;
     private Long updateTime;
     private Boolean isTop;
-    private List<CommentVO> comments = new ArrayList<>();
-    private Set<String> tags = new HashSet<>();
+    private Set<Comment> commentSet;
+    private Set<TagBO> tagSet;
 
+    public ArticleBO(){}
 
-    public ArticleVO(){}
-
-    public ArticleVO(Article article){
+    public ArticleBO(Article article, HashSet<Comment> comments, HashSet<TagBO> tags) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.articleAbstract = article.getArticleAbstract();
@@ -31,42 +32,8 @@ public class ArticleVO {
         this.createTime = article.getCreateTime();
         this.updateTime = article.getUpdateTime();
         this.isTop = article.getTop();
-
-        for (Tag tag : article.getTagSet())
-            this.tags.add(tag.getTagName());
-        ArrayList<Comment> commentss = new ArrayList<>(article.getCommentSet());
-        commentss.sort((o1, o2) -> {
-            if (o2.getFloorNumber() > o1.getFloorNumber())
-                return 1;
-            else if (o2.getFloorNumber().equals(o1.getFloorNumber()))
-                return 0;
-            else return -1;
-        });
-        for (Comment c : commentss)
-            this.comments.add(new CommentVO(c));
-    }
-
-    @Override
-    public String toString() {
-        return "ArticleVO{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", articleAbstract='" + articleAbstract + '\'' +
-                ", content='" + content + '\'' +
-                ", views=" + views +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", isTop=" + isTop +
-                ", tags=" + tags +
-                '}';
-    }
-
-    public List<CommentVO> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentVO> comments) {
-        this.comments = comments;
+        this.commentSet = comments;
+        this.tagSet = tags;
     }
 
     public Integer getId() {
@@ -133,13 +100,19 @@ public class ArticleVO {
         isTop = top;
     }
 
-
-
-    public Set<String> getTags() {
-        return tags;
+    public Set<Comment> getCommentSet() {
+        return commentSet;
     }
 
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
+    }
+
+    public Set<TagBO> getTagSet() {
+        return tagSet;
+    }
+
+    public void setTagSet(Set<TagBO> tagSet) {
+        this.tagSet = tagSet;
     }
 }

@@ -11,7 +11,7 @@
 
     <resultMap id="tag" type="com.ningmeng.vueblog.entity.Tag" extends="base_tag">
         <collection property="articleSet" ofType="com.ningmeng.vueblog.entity.Article"
-                    select="com.ningmeng.vueblog.mapper.ArticleMapper.selectByTagId" column="article_id">
+                    select="com.ningmeng.vueblog.mapper.ArticleMapper.selectByTagId" column="id">
         </collection>
     </resultMap>
 

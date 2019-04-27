@@ -1,13 +1,10 @@
 package com.ningmeng.vueblog.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.ningmeng.vueblog.vo.UserVO;
+
 
 import java.io.Serializable;
 
-@JsonIdentityInfo(property = "userId",generator =  ObjectIdGenerators.IntSequenceGenerator.class )
 public class User implements Serializable {
 
     private Integer id;
@@ -26,13 +23,7 @@ public class User implements Serializable {
         this.userGithubId = userGithubId;
     }
 
-    public User(UserVO userVO){
-        this.id = userVO.getId();
-        this.username = userVO.getUsername();
-        this.userUrl = userVO.getUserUrl();
-        this.userAvatar = userVO.getUserAvatar();
-        this.userGithubId = userVO.getUserGithubId();
-    }
+
 
     @Override
     public String toString() {

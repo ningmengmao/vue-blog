@@ -1,8 +1,12 @@
-package com.ningmeng.vueblog.vo;
+package com.ningmeng.vueblog.bo;
 
+import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 
-public class CommentVO {
+import java.io.Serializable;
+
+public class CommentBO implements Serializable {
+
     private Integer id;
     private String content;
     private Long createTime;
@@ -12,11 +16,11 @@ public class CommentVO {
     private String userUrl; //github url
     private Integer originalCommentId; //父评论id
     private Integer floorNumber;  //评论楼层数
-    private Integer articleId;
+    private Article article;
 
-    public CommentVO(){}
+    public CommentBO(){}
 
-    public CommentVO(Comment comment){
+    public CommentBO(Comment comment, Article article){
         this.id = comment.getId();
         this.content = comment.getContent();
         this.createTime = comment.getCreateTime();
@@ -26,24 +30,7 @@ public class CommentVO {
         this.userUrl = comment.getUserUrl();
         this.originalCommentId = comment.getOriginalCommentId();
         this.floorNumber = comment.getFloorNumber();
-        this.articleId = comment.getArticle().getId();
-
-    }
-
-    @Override
-    public String toString() {
-        return "CommentVO{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", createTime=" + createTime +
-                ", username='" + username + '\'' +
-                ", userId='" + userId + '\'' +
-                ", userThumbnailUrl='" + userThumbnailUrl + '\'' +
-                ", userUrl='" + userUrl + '\'' +
-                ", originalCommentId=" + originalCommentId +
-                ", floorNumber=" + floorNumber +
-                ", articleId=" + articleId +
-                '}';
+        this.article = article;
     }
 
     public Integer getId() {
@@ -118,11 +105,11 @@ public class CommentVO {
         this.floorNumber = floorNumber;
     }
 
-    public Integer getArticleId() {
-        return articleId;
+    public Article getArticle() {
+        return article;
     }
 
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

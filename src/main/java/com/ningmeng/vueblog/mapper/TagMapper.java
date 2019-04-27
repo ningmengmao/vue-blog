@@ -8,4 +8,8 @@ import java.util.List;
 public interface TagMapper extends BaseMapper<Tag> {
 
     List<Tag> selectByArticleId(int id);
+
+    List<Tag> getAll();
+
+    Tag selectByTagId(Integer id);
 }
