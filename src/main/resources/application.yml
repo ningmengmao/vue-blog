@@ -10,10 +10,9 @@ mybatis-plus:
 
 
 
-
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/newblog?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/newblog?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
     username: blog
     password: 123456
 
@@ -56,6 +55,11 @@ spring:
             alter-table-allow: false
             truncate-allow: false
             drop-table-allow: false
+      connection-init-sqls: set names utf8mb4;
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 20MB
 
 
 logging:

@@ -10,11 +10,13 @@ public class TagVO {
 
     private Integer id;
     private String tagName;
+    private Integer total;
     public TagVO(){}
 
-    public TagVO(Tag tag){
+    public TagVO(Tag tag, int total){
         this.id = tag.getId();
         this.tagName = tag.getTagName();
+        this.total = total;
     }
 
     @Override
@@ -41,4 +43,11 @@ public class TagVO {
         this.tagName = tagName;
     }
 
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
 }

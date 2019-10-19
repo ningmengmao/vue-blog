@@ -18,7 +18,31 @@
     <select id="selectByArticleId" resultMap="tag">
         select b_tag.id id, b_tag.tag_name tag_name, bat.article_id article_id
         from b_tag
-        inner join b_article_tag bat on b_tag.id = bat.tag_id
+        left outer join b_article_tag bat on b_tag.id = bat.tag_id
         where article_id = #{id}
+    </select>
+
+    <select id="getAll" resultMap="tag">
+        select id, tag_name
+        from b_tag
+    </select>
+
+    <select id="getByName" resultMap="tag">
+        select b_tag.id id, b_tag.tag_name tag_name
+        from b_tag
+        where b_tag.tag_name = #{name ,javaType=string}
+    </select>
+
+    <select id="getArticleTotalById" resultType="int">
+        select count(bat.article_id)
+        from b_tag
+        left outer join b_article_tag bat on b_tag.id = bat.tag_id
+        where b_tag.id = #{id}
+        group by b_tag.id
+    </select>
+    <select id="selectByTagId" resultMap="tag">
+        select id,  tag_name
+        from b_tag
+        where id = #{id}
     </select>
 </mapper>

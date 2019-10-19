@@ -1,30 +1,24 @@
-package com.ningmeng.vueblog.mapper;
+package com.ningmeng.vueblog.service;
 
 import com.ningmeng.vueblog.entity.Tag;
+import com.ningmeng.vueblog.vo.TagVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
+import org.springframework.util.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TagMapperTest {
+public class TagServiceTest {
 
     @Autowired
-    private TagMapper tagMapper;
+    private TagService tagService;
 
     @Test
     public void test(){
-        List<Tag> tags = tagMapper.selectByArticleId(23);
-        System.out.println(1);
-    }
-
-    @Test
-    public void test1(){
-        Tag tag = tagMapper.getByName("测试1");
-        System.out.println(1);
+        Tag tag = tagService.getByName("测试1");
+        System.out.println(new TagVO(tag, 1));
     }
 }

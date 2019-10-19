@@ -1,6 +1,8 @@
 package com.ningmeng.vueblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 import com.ningmeng.vueblog.mapper.CommentMapper;
@@ -62,10 +64,38 @@ public class CommentServiceImpl implements CommentService {
                     @CacheEvict(cacheNames = "commentListByArticleId", key = "#article.id"),
                     @CacheEvict(cacheNames = "comment", allEntries = true)
             })
-    public int delete(Article article) {
+    public int deleteByArticleId(int id) {
         return commentMapper.delete(new QueryWrapper<Comment>()
-                    .eq("article_id", article.getId())
+                    .eq("article_id", id)
         );
+    }
+
+    @Override
+    public List<Comment> getNewComment() {
+        return commentMapper.getNewComment();
+    }
+
+    @Override
+    public int getCommentTotal() {
+        return commentMapper.selectCount(new QueryWrapper<Comment>());
+    }
+
+    @Override
+    public IPage<Comment> getCommentsByPageNum(int pageNum) {
+        if (pageNum < 1){
+            throw new RuntimeException("pageNum 必须大于0");
+        }
+        return commentMapper.getComments(new Page<Comment>(pageNum, 15));
+    }
+
+    @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "commentListByArticleId", key = "#article.id"),
+                    @CacheEvict(cacheNames = "comment", allEntries = true)
+            })
+    public int delete(Integer id) {
+        return commentMapper.deleteById(id);
     }
 
     @Autowired

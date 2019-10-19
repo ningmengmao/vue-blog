@@ -16,4 +16,9 @@ public interface TagService {
     Tag insert(Tag tag);
 
     int delete(int id);
+
+    Tag getByName(String name);
+
+    int getArticleTotalById(int id);
+
 }

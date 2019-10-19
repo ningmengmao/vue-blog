@@ -25,7 +25,19 @@ public interface ArticleService  {
 
     List<Article> findById(Iterable<Integer> ids);
 
+    List<Article> getByMostView();
+
     int getArticleTotal();
 
     int getArticleTotalByYearAndMonth(Integer year, Integer month);
+
+    List<Article> getByMostComment();
+
+    int lastArticleId();
+
+    List<Integer> articleIds();
+
+    int getViewsTotal();
+
+    int delete(int id);
 }

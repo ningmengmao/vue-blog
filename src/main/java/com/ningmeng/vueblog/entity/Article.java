@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="articleId", scope = Article.class)public class Article implements Serializable {
@@ -21,10 +22,10 @@ import java.util.Set;
     private Boolean isTop;
 
     @TableField(exist = false)
-    private Set<Comment> commentSet;
+    private Set<Comment> commentSet = new HashSet<>();
 
     @TableField(exist = false)
-    private Set<Tag> tagSet;
+    private Set<Tag> tagSet = new HashSet<>();
 
     public Article() {
     }

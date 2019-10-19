@@ -1,30 +1,22 @@
 package com.ningmeng.vueblog.mapper;
 
-import com.ningmeng.vueblog.entity.Tag;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TagMapperTest {
-
+public class RedisTest {
     @Autowired
-    private TagMapper tagMapper;
+    private RedisTemplate redisTemplate;
 
     @Test
     public void test(){
-        List<Tag> tags = tagMapper.selectByArticleId(23);
-        System.out.println(1);
-    }
+        System.out.println(redisTemplate.delete("tag::测试1") + "-" + redisTemplate.delete("tag::测试2"));
 
-    @Test
-    public void test1(){
-        Tag tag = tagMapper.getByName("测试1");
-        System.out.println(1);
     }
 }

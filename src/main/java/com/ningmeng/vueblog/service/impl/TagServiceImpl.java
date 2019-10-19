@@ -26,7 +26,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "allTag")
+    @Cacheable(cacheNames = "allTag", key = "'allTag'")
     public List<Tag> getAllTag() {
         return tagMapper.getAll();
     }
@@ -70,10 +70,23 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Cacheable(cacheNames = "tag", key = "#name")
+    public Tag getByName(String name) {
+        return tagMapper.getByName(name);
+    }
+
+    @Override
     @Cacheable(cacheNames = "tag", key = "#id")
     public Tag findById(int id) {
         return tagMapper.selectByTagId(id);
     }
+
+    @Override
+    public int getArticleTotalById(int id) {
+        Integer i = tagMapper.getArticleTotalById(id);
+        return i != null ? i : 0;
+    }
+
 
     @Autowired
     public void setTagMapper(TagMapper tagMapper) {

@@ -40,13 +40,13 @@ public class ArticleMapperTest {
         System.out.println(1);
     }
 
-    @Test
-    public void tt(){
-        Date begin = new Date( 119, 3 ,1);
-        Date end = new Date(119, 5, 1);
-
-        System.out.println(begin.getTime());
-        IPage<Article> byCreateTimeBetween = articleMapper.findByCreateTimeBetween(new Page<ArticleMapper>(1, 8), begin.getTime() , end.getTime() );
-        System.out.println(1);
-    }
+//    @Test
+//    public void tt(){
+//        Date begin = new Date( 119, 3 ,1);
+//        Date end = new Date(119, 5, 1);
+//
+//        System.out.println(begin.getTime());
+//        IPage<Article> byCreateTimeBetween = articleMapper.findByCreateTimeBetween(new Page<ArticleMapper>(1, 8), begin.getTime() , end.getTime() );
+//        System.out.println(1);
+//    }
 }

@@ -14,12 +14,19 @@
         <result column="user_url" property="userUrl"/>
         <result column="original_comment_id" property="originalCommentId"/>
         <result column="floor_number" property="floorNumber"/>
-        <association property="article" javaType="com.ningmeng.vueblog.entity.Article"
-                     select="com.ningmeng.vueblog.mapper.ArticleMapper.selectByArticleId" column="article_id"></association>
+        <result column="article_id" property="articleId"/>
     </resultMap>
 
     <select id="selectByArticleId" resultMap="base">
         select * from b_comment where article_id = #{id}
+    </select>
+
+    <select id="getNewComment" resultMap="base">
+        select * from b_comment order by create_time desc limit 15
+    </select>
+
+    <select id="getComments" resultMap="base">
+        select * from b_comment order by create_time desc
     </select>
 
 </mapper>

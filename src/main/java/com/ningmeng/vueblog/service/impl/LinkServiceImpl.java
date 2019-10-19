@@ -17,19 +17,19 @@ public class LinkServiceImpl implements LinkService {
     private LinkMapper linkMapper;
 
     @Override
-    @Cacheable(cacheNames = "allLinks")
+    @Cacheable(cacheNames = "allLinks", key = "1")
     public List<Link> getAllLinks() {
         return linkMapper.selectList(new QueryWrapper<Link>().orderByDesc("id"));
     }
 
     @Override
-    @CacheEvict(cacheNames = "allLinks")
+    @CacheEvict(cacheNames = "allLinks", allEntries = true)
     public int insert(Link link) {
         return linkMapper.insert(link);
     }
 
     @Override
-    @CacheEvict(cacheNames = "allLinks")
+    @CacheEvict(cacheNames = "allLinks", allEntries = true)
     public int delete(int id) {
         return linkMapper.deleteById(id);
     }

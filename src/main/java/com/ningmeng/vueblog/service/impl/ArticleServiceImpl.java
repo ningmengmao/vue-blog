@@ -52,10 +52,12 @@ public class ArticleServiceImpl implements ArticleService {
             put = @CachePut(key = "#article.id"),
             evict = {
                     @CacheEvict(cacheNames = "articlePage", allEntries = true),
-                    @CacheEvict(cacheNames = "articleByTime", allEntries = true)
+                    @CacheEvict(cacheNames = "articleByTime", allEntries = true),
+                    @CacheEvict(cacheNames = "article", key = "#article.id")
             }
     )
     public int update(Article article) {
+
         articleTagMapper.deleteByArticleId(article.getId());
 
         int i = articleMapper.updateById(article);
@@ -144,6 +146,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public List<Article> getByMostComment() {
+        return articleMapper.getByMostComment();
+    }
+
+    @Override
+    public List<Article> getByMostView(){
+        return articleMapper.getByMostView();
+    }
+
+    @Override
     public int getArticleTotal() {
         return articleMapper.selectCount(new QueryWrapper<Article>());
     }
@@ -163,6 +175,38 @@ public class ArticleServiceImpl implements ArticleService {
         return articleMapper.selectCount( new QueryWrapper<Article>()
             .between("update_time", begin, end)
         );
+    }
+
+    @Override
+    public int lastArticleId() {
+        return articleMapper.lastArticleId();
+    }
+
+    @Override
+    public int getViewsTotal() {
+        return articleMapper.getViewsTotal();
+    }
+
+    @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "articlePage", allEntries = true),
+                    @CacheEvict(cacheNames = "articlePageByTagId", allEntries = true),
+                    @CacheEvict(cacheNames = "articleByTime", allEntries = true),
+                    @CacheEvict(cacheNames = "article", key = "#id")
+            }
+    )
+    @Transactional
+    public int delete(int id) {
+        int i = articleMapper.deleteById(id);
+        commentService.deleteByArticleId(id);
+        articleTagMapper.deleteByArticleId(id);
+        return i;
+    }
+
+    @Override
+    public List<Integer> articleIds() {
+        return articleMapper.selectIds();
     }
 
     @Autowired

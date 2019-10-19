@@ -36,16 +36,20 @@ public class ArchivesController {
         ArrayList<ArticleVO> articleVOS = new ArrayList<>();
         for (Article a : articleIPage.getRecords())
             articleVOS.add(new ArticleVO(a));
-        return MyJson.toJson(MyJson.SUCCESS, "success", articleVOS);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pages", pages);
+        map.put("article_total", articleIPage.getTotal());
+        map.put("articles", articleVOS);
+        return MyJson.toJson(MyJson.SUCCESS, "success", map);
     }
 
-    @GetMapping("/{year}/{month}/pages")
-    public Map<String, Object> getPages(@PathVariable("year") Integer year, @PathVariable("month") Integer month ){
-        if ( year<2019 || month <1 || month > 12 )
-            return MyJson.toJson(MyJson.BAD_REQUEST, "日期错误", new ArrayList<>());
-        long pages = articleService.findByYearAndMonth(year, month, 1).getPages();
-        return MyJson.toJson(MyJson.SUCCESS, "success", pages);
-    }
+//    @GetMapping("/{year}/{month}/pages")
+//    public Map<String, Object> getPages(@PathVariable("year") Integer year, @PathVariable("month") Integer month ){
+//        if ( year<2019 || month <1 || month > 12 )
+//            return MyJson.toJson(MyJson.BAD_REQUEST, "日期错误", new ArrayList<>());
+//        long pages = articleService.findByYearAndMonth(year, month, 1).getPages();
+//        return MyJson.toJson(MyJson.SUCCESS, "success", pages);
+//    }
 
     @GetMapping("/totals")
     public Map<String, Object> getArticleTotals(){

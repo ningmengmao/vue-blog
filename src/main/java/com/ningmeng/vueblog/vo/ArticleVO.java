@@ -18,6 +18,7 @@ public class ArticleVO {
     private Boolean isTop;
     private List<CommentVO> comments = new ArrayList<>();
     private Set<String> tags = new HashSet<>();
+    private Boolean hasUpdate;
 
 
     public ArticleVO(){}
@@ -31,6 +32,7 @@ public class ArticleVO {
         this.createTime = article.getCreateTime();
         this.updateTime = article.getUpdateTime();
         this.isTop = article.getTop();
+        this.hasUpdate = updateTime > createTime ;
 
         for (Tag tag : article.getTagSet())
             this.tags.add(tag.getTagName());
@@ -59,6 +61,14 @@ public class ArticleVO {
                 ", isTop=" + isTop +
                 ", tags=" + tags +
                 '}';
+    }
+
+    public Boolean getHasUpdate() {
+        return hasUpdate;
+    }
+
+    public void setHasUpdate(Boolean hasUpdate) {
+        this.hasUpdate = hasUpdate;
     }
 
     public List<CommentVO> getComments() {
@@ -132,8 +142,6 @@ public class ArticleVO {
     public void setTop(Boolean top) {
         isTop = top;
     }
-
-
 
     public Set<String> getTags() {
         return tags;

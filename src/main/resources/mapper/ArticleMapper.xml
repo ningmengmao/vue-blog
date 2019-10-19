@@ -55,7 +55,7 @@
         where id in (
             select article_id
             from b_article_tag
-            where tag_id = #{id}
+            where tag_id = #{tagId}
         )
     </select>
 
@@ -77,6 +77,41 @@
         select <include refid="base_sql"></include>
         from b_article
         order by update_time desc
+    </select>
+
+    <select id="getByMostComment" resultMap="base_article">
+        select <include refid="base_sql"></include>
+        from b_article
+        where id in (
+            select t.article_id from (
+                select article_id, count(article_id) coun
+                from b_comment
+                group by article_id
+                order by coun limit 4
+                ) as t
+        )
+    </select>
+
+    <select id="getByMostView" resultMap="base_article">
+        select <include refid="base_sql"></include>
+        from b_article
+        order by views desc limit 4;
+    </select>
+
+    <select id="lastArticleId" resultType="int">
+        select id
+        from b_article
+        order by id desc limit 1
+    </select>
+
+    <select id="getViewsTotal" resultType="int">
+        select sum(views)
+        from b_article
+    </select>
+
+    <select id="selectIds" resultType="int">
+        select id
+        from b_article
     </select>
 
 

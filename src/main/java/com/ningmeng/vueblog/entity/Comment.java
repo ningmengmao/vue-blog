@@ -1,7 +1,6 @@
 package com.ningmeng.vueblog.entity;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -16,13 +15,11 @@ public class Comment implements Serializable {
     private Long createTime;
     private String username;
     private String userId;
-    private String userThumbnailUrl; //头像url
-    private String userUrl; //github url
-    private Integer originalCommentId; //父评论id
-    private Integer floorNumber;  //评论楼层数
-
-    @TableField(exist = false)
-    private Article article;
+    private String userThumbnailUrl;
+    private String userUrl;
+    private Integer originalCommentId;
+    private Integer floorNumber;
+    private Integer articleId;
 
     public Comment() {
     }
@@ -55,12 +52,12 @@ public class Comment implements Serializable {
         this.floorNumber = floorNumber;
     }
 
-    public Article getArticle() {
-        return article;
+    public Integer getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
     }
 
     public Integer getFloorNumber() {

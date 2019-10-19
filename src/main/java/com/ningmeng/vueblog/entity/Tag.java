@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="tagId", scope = Tag.class)
@@ -16,7 +17,7 @@ public class Tag implements Serializable {
     private String tagName;
 
     @TableField(exist = false)
-    private Set<Article> articleSet;
+    private Set<Article> articleSet = new HashSet<>();
 
     public Tag(){}
 

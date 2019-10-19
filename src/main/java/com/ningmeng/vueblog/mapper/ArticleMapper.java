@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ningmeng.vueblog.entity.Article;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 public interface ArticleMapper extends BaseMapper<Article> {
 
@@ -19,4 +21,13 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     IPage<Article> selectByPage(Page page);
 
+    List<Article> getByMostComment();
+
+    List<Article> getByMostView();
+
+    Integer lastArticleId();
+
+    Integer getViewsTotal();
+
+    List<Integer> selectIds();
 }
