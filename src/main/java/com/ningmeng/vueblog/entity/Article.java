@@ -1,16 +1,23 @@
 package com.ningmeng.vueblog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="articleId", scope = Article.class)public class Article implements Serializable {
+@ToString
+@Setter
+@Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "articleId", scope = Article.class)
+public class Article implements Serializable {
 
+    @TableId
     private Integer id;
     private String title;
     @TableField(value = "abstract")
@@ -26,111 +33,4 @@ import java.util.Set;
 
     @TableField(exist = false)
     private Set<Tag> tagSet = new HashSet<>();
-
-    public Article() {
-    }
-
-    public Article(String title, String articleAbstract, String content, Integer views, Long createTime, Boolean isTop) {
-        this.title = title;
-        this.articleAbstract = articleAbstract;
-        this.content = content;
-        this.views = views;
-        this.createTime = createTime;
-        this.isTop = isTop;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", articleAbstract='" + articleAbstract + '\'' +
-                ", content='" + content + '\'' +
-                ", views=" + views +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", isTop=" + isTop +
-                '}';
-    }
-
-    public Set<Comment> getCommentSet() {
-        return commentSet;
-    }
-
-    public void setCommentSet(Set<Comment> commentSet) {
-        this.commentSet = commentSet;
-    }
-
-    public Set<Tag> getTagSet() {
-        return tagSet;
-    }
-
-    public void setTagSet(Set<Tag> tagSet) {
-        this.tagSet = tagSet;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getArticleAbstract() {
-        return articleAbstract;
-    }
-
-    public void setArticleAbstract(String articleAbstract) {
-        this.articleAbstract = articleAbstract;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public Long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Long updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Boolean getTop() {
-        return isTop;
-    }
-
-    public void setTop(Boolean top) {
-        isTop = top;
-    }
 }

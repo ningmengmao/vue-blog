@@ -30,15 +30,16 @@ public class ArticleMapperTest {
 
     @Test
     public void test1(){
-        Article article = articleMapper.selectByArticleId(23);
-        System.out.println(article);
+//        Article article = articleMapper.selectByArticleId(23);
+//        System.out.println(article);
+        System.out.println("!23");
     }
 
-    @Test
-    public void ttt(){
-        IPage<Article> update_time = articleMapper.selectPage(new Page<Article>(), new QueryWrapper<Article>().orderByDesc("update_time"));
-        System.out.println(1);
-    }
+//    @Test
+//    public void ttt(){
+//        IPage<Article> update_time = articleMapper.selectPage(new Page<Article>(), new QueryWrapper<Article>().orderByDesc("update_time"));
+//        System.out.println(1);
+//    }
 
 //    @Test
 //    public void tt(){

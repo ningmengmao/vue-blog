@@ -1,6 +1,7 @@
 package com.ningmeng.vueblog.controller;
 
 import com.ningmeng.vueblog.util.MyJson;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpRequest;
@@ -22,9 +23,11 @@ import java.util.UUID;
 @RestController
 public class FileController {
 
+    @Value("${upload-image-path}")
+    private String path;
+
     @PostMapping("/img")
     public Map<String,Object> uploadImage(MultipartFile image,  HttpServletRequest request){
-        String path = "/home/ningmengmao/vue_html/vue_demo2/static/images/";
         String imageName = image.getOriginalFilename();
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         try {
@@ -32,7 +35,7 @@ public class FileController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String url = "http://localhost:8080/static/images/" + uuid + "_" + imageName;
+        String url = "static/images/" + uuid + "_" + imageName;
         HashMap<String, String> map = new HashMap<>();
         map.put("url", url);
         map.put("fileName", uuid+"_"+imageName);

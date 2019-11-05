@@ -1,4 +1,4 @@
-package com.ningmeng.vueblog.service.impl;
+package com.ningmeng.vueblog.controller;
 
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Tag;

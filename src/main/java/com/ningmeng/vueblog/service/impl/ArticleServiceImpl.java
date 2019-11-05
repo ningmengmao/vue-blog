@@ -13,7 +13,6 @@ import com.ningmeng.vueblog.mapper.ArticleTagMapper;
 import com.ningmeng.vueblog.service.ArticleService;
 import com.ningmeng.vueblog.service.CommentService;
 import com.ningmeng.vueblog.service.TagService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Caching(
             put = @CachePut(key = "#article.id"),
             evict = {
@@ -57,11 +56,8 @@ public class ArticleServiceImpl implements ArticleService {
             }
     )
     public int update(Article article) {
-
         articleTagMapper.deleteByArticleId(article.getId());
-
         int i = articleMapper.updateById(article);
-
         // 维护中间表
         for (Tag tag : article.getTagSet())
             articleTagMapper.insert(article.getId(), tag.getId());
@@ -69,7 +65,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void update(Iterable<Article> articles) {
         for (Article a : articles)
             update(a);
@@ -202,6 +198,11 @@ public class ArticleServiceImpl implements ArticleService {
         commentService.deleteByArticleId(id);
         articleTagMapper.deleteByArticleId(id);
         return i;
+    }
+
+    @Override
+    public Set<Comment> getParentCommentById(Integer articleId) {
+        return commentService.getParentCommentByArticleId(articleId);
     }
 
     @Override

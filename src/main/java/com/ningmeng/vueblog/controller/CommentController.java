@@ -2,12 +2,15 @@ package com.ningmeng.vueblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ningmeng.vueblog.entity.Comment;
+import com.ningmeng.vueblog.entity.User;
 import com.ningmeng.vueblog.service.CommentService;
 import com.ningmeng.vueblog.util.MyJson;
 import com.ningmeng.vueblog.vo.CommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,18 +23,21 @@ public class CommentController {
 
     private CommentService commentService;
 
+    private RedisTemplate redisTemplate;
+
     @GetMapping("")
     public Map<String, Object> getComments(){
         ArrayList<CommentVO> commentVOS = new ArrayList<>();
         for (Comment c : commentService.getNewComment())
-            commentVOS.add(new CommentVO(c));
+            commentVOS.add(CommentVO.newInstance(c, new ArrayList<>()));
         return MyJson.toJson(MyJson.SUCCESS, "success", commentVOS);
     }
 
     @GetMapping("/{pageNum}")
     public Map<String,Object> getOnePageComments(@PathVariable("pageNum") Integer pageNum){
-        if (pageNum < 1)
+        if (pageNum < 1) {
             return MyJson.toJson(MyJson.BAD_REQUEST, "页码数必须大于0", new ArrayList<>());
+        }
         IPage<Comment> commentsIPage = commentService.getCommentsByPageNum(pageNum);
         long pages = commentsIPage.getPages();
         if (pageNum > pages)
@@ -54,20 +60,32 @@ public class CommentController {
     /**
      * 要做登录验证
      * @param id
-     * @param content
+     * @param data
      * @return
      */
     @PostMapping("/{id}")
-    public Map<String,Object> addComment(@PathVariable("id") int id, @RequestBody Map<String,String> content){
-        // todo 登录验证
+    public Map<String, Object> addComment(@PathVariable("id") int id, @RequestBody Map<String, String> data, HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        String token = authorization.replace("Bearer ", "");
+        User user = (User) redisTemplate.opsForValue().get("token-" + token);
+
         Comment comment = new Comment();
-        comment.setContent(content.get("content"));
+        comment.setContent(data.get("content"));
+        if (Integer.valueOf(data.get("parent")) > 0) {
+            comment.setOriginalCommentId(Integer.valueOf(data.get("parent")));
+        }
         comment.setCreateTime(Instant.now().toEpochMilli());
-        System.out.println( id + "-------" + content.get("content"));
-        return MyJson.toJson(MyJson.BAD_REQUEST, "bad request", new ArrayList<>());
-//        return MyJson.toJson(MyJson.SUCCESS,"success", new ArrayList<>());
+        comment.setArticleId(id);
+        comment.setUser(user);
+        commentService.insert(comment);
+        return MyJson.toJson(MyJson.SUCCESS, "success", new ArrayList<>());
     }
 
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Autowired
     public void setCommentService(CommentService commentService) {

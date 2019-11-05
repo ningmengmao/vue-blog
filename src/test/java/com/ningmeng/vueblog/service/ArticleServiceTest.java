@@ -28,7 +28,7 @@ public class ArticleServiceTest {
     @Test
     public void test1(){
         Article byId = articleService.findById(23);
-        ArticleVO articleVO = new ArticleVO(byId);
+        ArticleVO articleVO = new ArticleVO(byId, null);
         System.out.println(1);
     }
 

@@ -5,6 +5,7 @@ import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 import com.ningmeng.vueblog.entity.Tag;
 import com.ningmeng.vueblog.service.ArticleService;
+import com.ningmeng.vueblog.service.CommentService;
 import com.ningmeng.vueblog.service.TagService;
 import com.ningmeng.vueblog.util.MyJson;
 import com.ningmeng.vueblog.vo.ArticleVO;
@@ -22,6 +23,7 @@ public class ArticleController {
 
     private ArticleService articleService;
     private TagService tagService;
+    private CommentService commentService;
 
     @GetMapping("/{pageNum}")
     public Map<String, Object> getArticleByPageNum(@PathVariable("pageNum") Integer number){
@@ -33,11 +35,23 @@ public class ArticleController {
             return MyJson.toJson(MyJson.BAD_REQUEST, "页码数超出", new ArrayList<ArticleVO>());
         ArrayList<ArticleVO> articleVOS = new ArrayList<>();
         for (Article a : articles.getRecords()) {
-            ArticleVO vo = new ArticleVO(a);
+            ArticleVO vo = new ArticleVO(a, null);
             vo.setContent("");
-            vo.setComments(new ArrayList<>());
-            articleVOS.add(vo);
 
+            ArrayList<CommentVO> commentVOS = new ArrayList<>();
+            for (Comment comment : a.getCommentSet()) {
+                commentVOS.add(CommentVO.newInstance(comment, new ArrayList<>()));
+            }
+            commentVOS.sort((o1, o2) -> {
+                if (o1.getCreateTime() > o2.getCreateTime())
+                    return -1;
+                else if (o1.getCreateTime() == o2.getCreateTime())
+                    return 0;
+                else
+                    return 1;
+            });
+            vo.setComments(commentVOS);
+            articleVOS.add(vo);
         }
         HashMap<String, Object> map = new HashMap<>();
         map.put("articles", articleVOS);
@@ -64,8 +78,11 @@ public class ArticleController {
         // 更新views
         byId.setViews(byId.getViews() + 1);
         articleService.update(byId);
+        byId.setCommentSet(articleService.getParentCommentById(byId.getId()));
         HashMap<String, Object> map = new HashMap<>();
-        map.put("current", new ArticleVO(byId));
+        ArticleVO articleVO = new ArticleVO(byId, commentService);
+
+        map.put("current", articleVO);
         List<Integer> ids = articleService.articleIds();
         ids.sort(Integer::compareTo);
         // before
@@ -166,7 +183,7 @@ public class ArticleController {
         List<Article> byMostComment = articleService.getByMostComment();
         ArrayList<ArticleVO> articleVOS = new ArrayList<>();
         for (Article a : byMostComment)
-            articleVOS.add(new ArticleVO(a));
+            articleVOS.add(new ArticleVO(a, null));
         return MyJson.toJson(MyJson.SUCCESS, "success", articleVOS);
     }
 
@@ -175,8 +192,14 @@ public class ArticleController {
         List<Article> byMostView = articleService.getByMostView();
         ArrayList<ArticleVO> articleVOS = new ArrayList<>();
         for (Article a : byMostView)
-            articleVOS.add(new ArticleVO(a));
+            articleVOS.add(new ArticleVO(a, null));
         return MyJson.toJson(MyJson.SUCCESS, "success", articleVOS);
+    }
+
+
+    @Autowired
+    public void setCommentService(CommentService commentService) {
+        this.commentService = commentService;
     }
 
     @Autowired

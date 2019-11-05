@@ -1,10 +1,12 @@
 package com.ningmeng.vueblog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ningmeng.vueblog.bo.ArticleBO;
 import com.ningmeng.vueblog.entity.Article;
+import com.ningmeng.vueblog.entity.Comment;
 
 import java.util.List;
+import java.util.Set;
+
 
 public interface ArticleService  {
 
@@ -40,4 +42,6 @@ public interface ArticleService  {
     int getViewsTotal();
 
     int delete(int id);
+
+    Set<Comment> getParentCommentById(Integer articleId);
 }

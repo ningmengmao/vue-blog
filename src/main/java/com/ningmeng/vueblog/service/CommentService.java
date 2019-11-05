@@ -5,6 +5,7 @@ import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CommentService  {
 
@@ -25,4 +26,8 @@ public interface CommentService  {
     IPage<Comment> getCommentsByPageNum(int pageNum);
 
     int delete(Integer id);
+
+    List<Comment> getCommentsByOriginalCommentId(Integer id);
+
+    Set<Comment> getParentCommentByArticleId(Integer articleId);
 }

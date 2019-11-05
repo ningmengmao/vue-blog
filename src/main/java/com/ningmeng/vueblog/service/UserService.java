@@ -4,7 +4,9 @@ import com.ningmeng.vueblog.entity.User;
 
 public interface UserService {
 
-    void login(User user);
+    public User getUser(User user);
 
-    User getUser();
+    public int addUser(User user);
+
+    public User findUserByAccountId(Long id);
 }

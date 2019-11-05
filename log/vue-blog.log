@@ -1,0 +1,28 @@
+2019-11-05 00:05:00.0986 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /home/ningmengmao/Pictures/2019-11-5.jpg
+2019-11-05 00:05:00.0997 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /media/ningmengmao/repository/code/git/vue_demo2/static/images/2019-11-5.jpg
+2019-11-05 09:01:11.0361 --- {http-nio-23333-exec-10} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- GET "/api/side", parameters={}
+2019-11-05 09:01:11.0362 --- {http-nio-23333-exec-10} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- Mapped to public java.util.Map<java.lang.String, java.lang.Object> com.ningmeng.vueblog.controller.SideBarController.getInfo()
+2019-11-05 09:01:11.0377 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- ==>  Preparing: SELECT id, title, abstract, content, views, create_time, update_time, is_top FROM b_article WHERE id IN (SELECT t.article_id FROM (SELECT article_id, count(article_id) coun FROM b_comment GROUP BY article_id ORDER BY coun LIMIT 4) AS t) 
+2019-11-05 09:01:11.0378 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- ==> Parameters: 
+2019-11-05 09:01:11.0379 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- <==      Total: 1
+2019-11-05 09:01:11.0381 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- ==>  Preparing: SELECT id, title, abstract, content, views, create_time, update_time, is_top FROM b_article ORDER BY views DESC LIMIT 4 
+2019-11-05 09:01:11.0381 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- ==> Parameters: 
+2019-11-05 09:01:11.0382 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- <==      Total: 4
+2019-11-05 09:01:11.0386 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- ==>  Preparing: SELECT COUNT(1) FROM b_article 
+2019-11-05 09:01:11.0386 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- ==> Parameters: 
+2019-11-05 09:01:11.0387 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- <==      Total: 1
+2019-11-05 09:01:11.0388 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- ==>  Preparing: SELECT COUNT(1) FROM b_comment 
+2019-11-05 09:01:11.0389 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- ==> Parameters: 
+2019-11-05 09:01:11.0389 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- <==      Total: 1
+2019-11-05 09:01:11.0390 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- ==>  Preparing: SELECT sum(views) FROM b_article 
+2019-11-05 09:01:11.0391 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- ==> Parameters: 
+2019-11-05 09:01:11.0392 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- <==      Total: 1
+2019-11-05 09:01:11.0392 --- {http-nio-23333-exec-10} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2019-11-05 09:01:11.0392 --- {http-nio-23333-exec-10} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Writing [{data={mostComment=[{id=23, title=title}], mostView=[{id=23, title=title}, {id=26, title=测试文章发布----- (truncated)...]
+2019-11-05 09:01:11.0393 --- {http-nio-23333-exec-10} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Completed 200 OK
+2019-11-05 09:02:35.0126 --- {http-nio-23333-exec-1} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- GET "/api/articles/1", parameters={}
+2019-11-05 09:02:35.0127 --- {http-nio-23333-exec-1} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- Mapped to public java.util.Map<java.lang.String, java.lang.Object> com.ningmeng.vueblog.controller.ArticleController.getArticleByPageNum(java.lang.Integer)
+2019-11-05 09:02:35.0138 --- {http-nio-23333-exec-1} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2019-11-05 09:02:35.0138 --- {http-nio-23333-exec-1} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Writing [{data={pages=3, articles=[ArticleVO(id=26, title=测试文章发布------更新-tag-删除, articleAbstract=```java
+@Ena (truncated)...]
+2019-11-05 09:02:35.0139 --- {http-nio-23333-exec-1} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Completed 200 OK

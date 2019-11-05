@@ -35,7 +35,7 @@ public class ArchivesController {
             return MyJson.toJson(MyJson.BAD_REQUEST, "超出页码数", new ArrayList<>());
         ArrayList<ArticleVO> articleVOS = new ArrayList<>();
         for (Article a : articleIPage.getRecords())
-            articleVOS.add(new ArticleVO(a));
+            articleVOS.add(new ArticleVO(a, null));
         HashMap<String, Object> map = new HashMap<>();
         map.put("pages", pages);
         map.put("article_total", articleIPage.getTotal());

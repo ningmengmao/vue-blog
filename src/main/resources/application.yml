@@ -1,3 +1,29 @@
+background:
+  url: https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN
+  location:
+    - /home/ningmengmao/Pictures/
+    - /media/ningmengmao/repository/code/git/vue_demo2/static/images/
+
+upload-image-path: /media/ningmengmao/repository/code/git/vue_demo2/static/images/
+index-path: http://localhost:8080/
+
+github:
+  client_id: 70ad6f67e0e878c014cc
+  client_secret: 6058bbbdde8ca1546bba6571a0982785ebecf688
+  redirect_url: http://localhost:23333/githubCallback
+  github_Auth_url: https://github.com/login/oauth/authorize?client_id=70ad6f67e0e878c014cc&redirect_uri=http://localhost:23333/githubCallback&scope=user&state=1
+
+baidu:
+  id: 17606837
+  api-key: Okjx7mzOlwiD8qM6ELiwK1Kq
+  secret-key: fwIUulOZminM5oSxNLMVlm81QYU7fqOg
+
+audience:
+  client-id: 370c4202ed9c460194e72e11255f4045a8b04b31a9284a0aa676752b6a6154d85213d5b889e24896b3aec009b6a8164a8be3b719a7324eef8b067d5c89eb406b581a60f9c4564b53bf572c86041e3448a26223e40abf4013adb7d06c2802ee6a6bc9eed043a64b1b9a28d863588df815f4c9748d73864696af79a9b1539e250a
+  base64Secret: MzcwYzQyMDJlZDljNDYwMTk0ZTcyZTExMjU1ZjQwNDVhOGIwNGIzMWE5Mjg0YTBhYTY3Njc1MmI2YTYxNTRkODUyMTNkNWI4ODllMjQ4OTZiM2FlYzAwOWI2YTgxNjRhOGJlM2I3MTlhNzMyNGVlZjhiMDY3ZDVjODllYjQwNmI1ODFhNjBmOWM0NTY0YjUzYmY1NzJjODYwNDFlMzQ0OGEyNjIyM2U0MGFiZjQwMTNhZGI3ZDA2YzI4MDJlZTZhNmJjOWVlZDA0M2E2NGIxYjlhMjhkODYzNTg4ZGY4MTVmNGM5NzQ4ZDczODY0Njk2YWY3OWE5YjE1MzllMjUwYQ==
+  name: vue-blog
+  expiresSecond: 7200
+
 server:
   port: 23333
 
@@ -7,8 +33,8 @@ mybatis-plus:
       id-type: auto
       table-prefix: b_
   mapper-locations: classpath*:mapper/*.xml
-
-
+  configuration:
+    map-underscore-to-camel-case: true
 
 spring:
   datasource:
@@ -67,7 +93,11 @@ logging:
     tomcat: org.apache.catalina, org.apache.coyote, org.apache.tomcat
   level:
     tomcat: info
-    org.springframework: info
     com.ningmeng.vueblog.mapper: debug
     com.ningmeng.vueblog.service: debug
+    com.ningmeng.vueblog.controller: debug
+    org.springframework.web: debug
+  file: log/vue-blog.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSSS} --- {%thread} --- %-5level --- %logger{50} --- %msg%n"
 

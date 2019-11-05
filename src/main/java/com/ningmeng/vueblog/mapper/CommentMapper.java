@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ningmeng.vueblog.entity.Comment;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface CommentMapper extends BaseMapper<Comment> {
@@ -19,4 +20,8 @@ public interface CommentMapper extends BaseMapper<Comment> {
     List<Comment> getNewComment();
 
     IPage<Comment> getComments(Page page);
+
+    List<Comment> selectByOriginalCommentId(int originalCommentId);
+
+    Set<Comment> getParentCommentByArticleId(Integer articleId);
 }

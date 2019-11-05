@@ -3,10 +3,10 @@ package com.ningmeng.vueblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 import com.ningmeng.vueblog.mapper.CommentMapper;
 import com.ningmeng.vueblog.service.CommentService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -37,21 +38,17 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "commentListByArticleId", key = "#comment.article.id")
+    @CacheEvict(cacheNames = "commentListByArticleId", key = "#comment.articleId")
     public Comment insert(Comment comment) {
         comment.setCreateTime(Instant.now().toEpochMilli());
         commentMapper.insertComment(comment);
-        Integer id = commentMapper.selectOne(new QueryWrapper<Comment>()
-                .eq("create_time", comment.getCreateTime())
-                .eq("username", comment.getUsername())
-        ).getId();
-        return commentMapper.selectByCommentId(id);
+        return comment;
     }
 
     @Override
     @Caching(
             evict = {
-                    @CacheEvict(cacheNames = "commentListByArticleId", key = "#comment.article.id"),
+                    @CacheEvict(cacheNames = "commentListByArticleId", key = "#comment.id"),
                     @CacheEvict(cacheNames = "comment", key = "#comment.id")
             })
     public int delete(Comment comment) {
@@ -61,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Caching(
             evict = {
-                    @CacheEvict(cacheNames = "commentListByArticleId", key = "#article.id"),
+                    @CacheEvict(cacheNames = "commentListByArticleId", key = "#id"),
                     @CacheEvict(cacheNames = "comment", allEntries = true)
             })
     public int deleteByArticleId(int id) {
@@ -91,11 +88,21 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Caching(
             evict = {
-                    @CacheEvict(cacheNames = "commentListByArticleId", key = "#article.id"),
+                    @CacheEvict(cacheNames = "commentListByArticleId", key = "#id"),
                     @CacheEvict(cacheNames = "comment", allEntries = true)
             })
     public int delete(Integer id) {
         return commentMapper.deleteById(id);
+    }
+
+    @Override
+    public List<Comment> getCommentsByOriginalCommentId(Integer id) {
+        return commentMapper.selectByOriginalCommentId(id);
+    }
+
+    @Override
+    public Set<Comment> getParentCommentByArticleId(Integer articleId) {
+        return commentMapper.getParentCommentByArticleId(articleId);
     }
 
     @Autowired

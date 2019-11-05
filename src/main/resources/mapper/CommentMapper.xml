@@ -8,14 +8,25 @@
         <id column="id" property="id"/>
         <result column="content" property="content"/>
         <result column="create_time" property="createTime"/>
-        <result column="username" property="username"/>
-        <result column="user_id" property="userId"/>
-        <result column="user_thumbnail_url" property="userThumbnailUrl"/>
-        <result column="user_url" property="userUrl"/>
+
         <result column="original_comment_id" property="originalCommentId"/>
-        <result column="floor_number" property="floorNumber"/>
         <result column="article_id" property="articleId"/>
+        <association property="user" javaType="com.ningmeng.vueblog.entity.User"
+                     select="com.ningmeng.vueblog.mapper.UserMapper.selectById" column="user_id">
+        </association>
     </resultMap>
+
+    <select id="selectByCommentId" resultMap="base">
+        select *
+        from b_comment
+        where id = #{id}
+    </select>
+
+    <select id="selectByOriginalCommentId" resultMap="base">
+        select *
+        from b_comment
+        where original_comment_id = #{originalCommentId}
+    </select>
 
     <select id="selectByArticleId" resultMap="base">
         select * from b_comment where article_id = #{id}
@@ -28,5 +39,19 @@
     <select id="getComments" resultMap="base">
         select * from b_comment order by create_time desc
     </select>
+
+    <select id="getParentCommentByArticleId" resultMap="base">
+        select *
+        from b_comment
+        where original_comment_id is null
+          and article_id = #{articleId}
+    </select>
+
+    <insert id="insertComment" keyProperty="id" parameterType="com.ningmeng.vueblog.entity.Comment"
+            useGeneratedKeys="true"
+    >
+        insert into b_comment (content, create_time, article_id, original_comment_id, user_id)
+            value (#{content}, #{createTime}, #{articleId}, #{originalCommentId}, #{user.id})
+    </insert>
 
 </mapper>

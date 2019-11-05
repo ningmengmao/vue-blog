@@ -3,9 +3,17 @@ package com.ningmeng.vueblog.vo;
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 import com.ningmeng.vueblog.entity.Tag;
+import com.ningmeng.vueblog.service.CommentService;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.*;
 
+@ToString
+@Setter
+@Getter
 public class ArticleVO {
 
     private Integer id;
@@ -23,7 +31,7 @@ public class ArticleVO {
 
     public ArticleVO(){}
 
-    public ArticleVO(Article article){
+    public ArticleVO(Article article, CommentService commentService) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.articleAbstract = article.getArticleAbstract();
@@ -31,123 +39,24 @@ public class ArticleVO {
         this.views = article.getViews();
         this.createTime = article.getCreateTime();
         this.updateTime = article.getUpdateTime();
-        this.isTop = article.getTop();
+        this.isTop = article.getIsTop();
         this.hasUpdate = updateTime > createTime ;
 
         for (Tag tag : article.getTagSet())
             this.tags.add(tag.getTagName());
-        ArrayList<Comment> commentss = new ArrayList<>(article.getCommentSet());
-        commentss.sort((o1, o2) -> {
-            if (o2.getFloorNumber() > o1.getFloorNumber())
+        ArrayList<Comment> coms = new ArrayList<>(article.getCommentSet());
+        coms.sort((o1, o2) -> {
+            if (o2.getCreateTime() > o1.getCreateTime())
                 return 1;
-            else if (o2.getFloorNumber().equals(o1.getFloorNumber()))
+            else if (o2.getCreateTime().equals(o1.getCreateTime()))
                 return 0;
             else return -1;
         });
-        for (Comment c : commentss)
-            this.comments.add(new CommentVO(c));
+
+        if (commentService != null)
+            for (Comment c : coms) {
+                this.comments.add(CommentVO.newInstance(c, commentService.getCommentsByOriginalCommentId(c.getId())));
+            }
     }
 
-    @Override
-    public String toString() {
-        return "ArticleVO{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", articleAbstract='" + articleAbstract + '\'' +
-                ", content='" + content + '\'' +
-                ", views=" + views +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", isTop=" + isTop +
-                ", tags=" + tags +
-                '}';
-    }
-
-    public Boolean getHasUpdate() {
-        return hasUpdate;
-    }
-
-    public void setHasUpdate(Boolean hasUpdate) {
-        this.hasUpdate = hasUpdate;
-    }
-
-    public List<CommentVO> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentVO> comments) {
-        this.comments = comments;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getArticleAbstract() {
-        return articleAbstract;
-    }
-
-    public void setArticleAbstract(String articleAbstract) {
-        this.articleAbstract = articleAbstract;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public Long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Long updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Boolean getTop() {
-        return isTop;
-    }
-
-    public void setTop(Boolean top) {
-        isTop = top;
-    }
-
-    public Set<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
-    }
 }

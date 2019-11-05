@@ -12,20 +12,20 @@ public class UserServiceImpl implements UserService {
 
     private UserMapper userMapper;
 
+
     @Override
-    public void login(User user) {
-        User u = userMapper.selectOne(new QueryWrapper<User>()
-                .eq("username", user.getUsername())
-                .eq("user_github_id", user.getUserGithubId())
-        );
-        if (u != null && u.getUsername()!= null && u.getUserGithubId() != null)
-            if (!u.getUserGithubId().equals(user.getUserGithubId()) || !u.getUsername().equals(user.getUsername()))
-                throw new RuntimeException("登录失败");
+    public User getUser(User user) {
+        return userMapper.getUser(user);
     }
 
     @Override
-    public User getUser() {
-        return null;
+    public int addUser(User user) {
+        return userMapper.insert(user);
+    }
+
+    @Override
+    public User findUserByAccountId(Long id) {
+        return userMapper.selectOne(new QueryWrapper<User>().eq("account_id", id));
     }
 
     @Autowired

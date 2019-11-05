@@ -29,7 +29,7 @@ public class TagController {
         List<Tag> allTag = tagService.getAllTag();
         ArrayList<TagVO> tagVOS = new ArrayList<>();
         for (Tag t : allTag)
-            tagVOS.add(new TagVO(t, tagService.getArticleTotalById(t.getId())));
+            tagVOS.add(TagVO.newInstance(t));
         return MyJson.toJson(MyJson.SUCCESS, "success", tagVOS);
     }
 
@@ -62,7 +62,7 @@ public class TagController {
         IPage<Article> byTagId = articleService.findByTagId(byName.getId(), pageNum);
         ArrayList<ArticleVO> articleVOS = new ArrayList<>();
         for (Article a : byTagId.getRecords())
-            articleVOS.add(new ArticleVO(a));
+            articleVOS.add(new ArticleVO(a, null));
         HashMap<String, Object> map = new HashMap<>();
         map.put("pages", byTagId.getPages());
         map.put("articles", articleVOS);

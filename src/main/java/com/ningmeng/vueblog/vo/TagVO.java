@@ -2,52 +2,29 @@ package com.ningmeng.vueblog.vo;
 
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Tag;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.beans.BeanUtils;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
+@ToString
+@Setter
+@Getter
 public class TagVO {
 
     private Integer id;
     private String tagName;
     private Integer total;
-    public TagVO(){}
+    private List<Article> articles;
 
-    public TagVO(Tag tag, int total){
-        this.id = tag.getId();
-        this.tagName = tag.getTagName();
-        this.total = total;
-    }
-
-    @Override
-    public String toString() {
-        return "TagVO{" +
-                "id=" + id +
-                ", tagName='" + tagName +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
+    public static TagVO newInstance(Tag tag) {
+        TagVO tagVO = new TagVO();
+        BeanUtils.copyProperties(tag, tagVO);
+        tagVO.total = tag.getArticleSet().size();
+        tagVO.articles = Collections.list(Collections.enumeration(tag.getArticleSet()));
+        return tagVO;
     }
 }
