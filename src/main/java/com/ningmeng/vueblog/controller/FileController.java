@@ -1,18 +1,13 @@
 package com.ningmeng.vueblog.controller;
 
+import com.ningmeng.vueblog.annocation.AdminAccessAnnotation;
 import com.ningmeng.vueblog.util.MyJson;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,8 +21,9 @@ public class FileController {
     @Value("${upload-image-path}")
     private String path;
 
+    @AdminAccessAnnotation
     @PostMapping("/img")
-    public Map<String,Object> uploadImage(MultipartFile image,  HttpServletRequest request){
+    public Map<String, Object> uploadImage(MultipartFile image, HttpServletRequest request, HttpServletResponse response) {
         String imageName = image.getOriginalFilename();
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         try {
@@ -48,8 +44,9 @@ public class FileController {
         return null;
     }
 
+    @AdminAccessAnnotation
     @DeleteMapping("/img/{fileName}")
-    public Map<String,Object> delImage(@PathVariable("fileName") String fileName){
+    public Map<String, Object> delImage(@PathVariable("fileName") String fileName, HttpServletResponse response, HttpServletRequest request) {
 
         return null;
     }

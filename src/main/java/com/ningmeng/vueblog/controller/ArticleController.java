@@ -1,6 +1,7 @@
 package com.ningmeng.vueblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ningmeng.vueblog.annocation.AdminAccessAnnotation;
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Comment;
 import com.ningmeng.vueblog.entity.Tag;
@@ -13,7 +14,8 @@ import com.ningmeng.vueblog.vo.CommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.*;
 
@@ -118,8 +120,9 @@ public class ArticleController {
         return MyJson.toJson(MyJson.SUCCESS, "success", map);
     }
 
+    @AdminAccessAnnotation
     @PutMapping("/article/{id}")
-    public Map<String,Object> updateArticle(@PathVariable("id") int id, @RequestBody Map<String,Object> body){
+    public Map<String, Object> updateArticle(@PathVariable("id") int id, @RequestBody Map<String, Object> body, HttpServletRequest request, HttpServletResponse response) {
         if (id != (Integer) body.get("id")){
             return MyJson.toJson(MyJson.BAD_REQUEST, "文章id错误", new ArrayList<>());
         }
@@ -142,8 +145,9 @@ public class ArticleController {
         return null;
     }
 
+    @AdminAccessAnnotation
     @DeleteMapping("/article/{id}")
-    public Map<String,Object> deleteArticle(@PathVariable("id") int id){
+    public Map<String, Object> deleteArticle(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
         if (id < 1){
             return MyJson.toJson(MyJson.BAD_REQUEST, "文章id错误", new ArrayList<>());
         }
@@ -151,8 +155,9 @@ public class ArticleController {
         return MyJson.toJson(MyJson.SUCCESS, "success", new ArrayList<>());
     }
 
+    @AdminAccessAnnotation
     @PostMapping("/article")
-    public Map<String,Object> addArticle(@RequestBody Map<String,Object> body){
+    public Map<String, Object> addArticle(@RequestBody Map<String, Object> body, HttpServletRequest request, HttpServletResponse response) {
         String title = (String) body.get("title");
         String content = (String) body.get("content");
         String articleAbstract = (String) body.get("abstract");

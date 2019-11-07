@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
+ * jwt密钥配置
  * @Author: ningmengmao
  * @Date: 2019/10/21 下午6:00
  * @Version 1.0

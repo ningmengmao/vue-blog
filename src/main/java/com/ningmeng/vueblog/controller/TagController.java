@@ -1,6 +1,7 @@
 package com.ningmeng.vueblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ningmeng.vueblog.annocation.AdminAccessAnnotation;
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Tag;
 import com.ningmeng.vueblog.service.ArticleService;
@@ -11,7 +12,8 @@ import com.ningmeng.vueblog.vo.TagVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +35,9 @@ public class TagController {
         return MyJson.toJson(MyJson.SUCCESS, "success", tagVOS);
     }
 
+    @AdminAccessAnnotation
     @PostMapping("")
-    public Map<String,Object> addTag(@RequestBody Map<String,String> tagName){
+    public Map<String, Object> addTag(@RequestBody Map<String, String> tagName, HttpServletRequest request, HttpServletResponse response) {
 
         Tag tag = new Tag();
         tag.setTagName(tagName.get("tagName"));
@@ -42,8 +45,9 @@ public class TagController {
         return MyJson.toJson(MyJson.SUCCESS, "success", new ArrayList<>());
     }
 
+    @AdminAccessAnnotation
     @DeleteMapping("")
-    public Map<String,Object> delTag(@RequestBody Map<String, String> tagNameMap){
+    public Map<String, Object> delTag(@RequestBody Map<String, String> tagNameMap, HttpServletRequest request, HttpServletResponse response) {
         System.out.println(tagNameMap);
         String tagName = tagNameMap.get("tagName");
         Tag byName = tagService.getByName(tagName);

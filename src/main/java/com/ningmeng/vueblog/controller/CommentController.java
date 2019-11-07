@@ -1,6 +1,7 @@
 package com.ningmeng.vueblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ningmeng.vueblog.annocation.AdminAccessAnnotation;
 import com.ningmeng.vueblog.entity.Comment;
 import com.ningmeng.vueblog.entity.User;
 import com.ningmeng.vueblog.service.CommentService;
@@ -11,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +51,9 @@ public class CommentController {
         return MyJson.toJson(MyJson.SUCCESS, "success", map);
     }
 
+    @AdminAccessAnnotation
     @DeleteMapping("/{id}")
-    public Map<String,Object> delete(@PathVariable("id") Integer id){
+    public Map<String, Object> delete(@PathVariable("id") Integer id, HttpServletRequest request, HttpServletResponse response) {
         if (id < 1)
             return MyJson.toJson(MyJson.BAD_REQUEST, "id必须大于0", new ArrayList<>());
         commentService.delete(id);
