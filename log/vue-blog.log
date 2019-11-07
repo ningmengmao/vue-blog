@@ -1,28 +1,93 @@
-2019-11-05 00:05:00.0986 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /home/ningmengmao/Pictures/2019-11-5.jpg
-2019-11-05 00:05:00.0997 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /media/ningmengmao/repository/code/git/vue_demo2/static/images/2019-11-5.jpg
-2019-11-05 09:01:11.0361 --- {http-nio-23333-exec-10} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- GET "/api/side", parameters={}
-2019-11-05 09:01:11.0362 --- {http-nio-23333-exec-10} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- Mapped to public java.util.Map<java.lang.String, java.lang.Object> com.ningmeng.vueblog.controller.SideBarController.getInfo()
-2019-11-05 09:01:11.0377 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- ==>  Preparing: SELECT id, title, abstract, content, views, create_time, update_time, is_top FROM b_article WHERE id IN (SELECT t.article_id FROM (SELECT article_id, count(article_id) coun FROM b_comment GROUP BY article_id ORDER BY coun LIMIT 4) AS t) 
-2019-11-05 09:01:11.0378 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- ==> Parameters: 
-2019-11-05 09:01:11.0379 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- <==      Total: 1
-2019-11-05 09:01:11.0381 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- ==>  Preparing: SELECT id, title, abstract, content, views, create_time, update_time, is_top FROM b_article ORDER BY views DESC LIMIT 4 
-2019-11-05 09:01:11.0381 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- ==> Parameters: 
-2019-11-05 09:01:11.0382 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- <==      Total: 4
-2019-11-05 09:01:11.0386 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- ==>  Preparing: SELECT COUNT(1) FROM b_article 
-2019-11-05 09:01:11.0386 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- ==> Parameters: 
-2019-11-05 09:01:11.0387 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- <==      Total: 1
-2019-11-05 09:01:11.0388 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- ==>  Preparing: SELECT COUNT(1) FROM b_comment 
-2019-11-05 09:01:11.0389 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- ==> Parameters: 
-2019-11-05 09:01:11.0389 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- <==      Total: 1
-2019-11-05 09:01:11.0390 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- ==>  Preparing: SELECT sum(views) FROM b_article 
-2019-11-05 09:01:11.0391 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- ==> Parameters: 
-2019-11-05 09:01:11.0392 --- {http-nio-23333-exec-10} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- <==      Total: 1
-2019-11-05 09:01:11.0392 --- {http-nio-23333-exec-10} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
-2019-11-05 09:01:11.0392 --- {http-nio-23333-exec-10} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Writing [{data={mostComment=[{id=23, title=title}], mostView=[{id=23, title=title}, {id=26, title=测试文章发布----- (truncated)...]
-2019-11-05 09:01:11.0393 --- {http-nio-23333-exec-10} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Completed 200 OK
-2019-11-05 09:02:35.0126 --- {http-nio-23333-exec-1} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- GET "/api/articles/1", parameters={}
-2019-11-05 09:02:35.0127 --- {http-nio-23333-exec-1} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- Mapped to public java.util.Map<java.lang.String, java.lang.Object> com.ningmeng.vueblog.controller.ArticleController.getArticleByPageNum(java.lang.Integer)
-2019-11-05 09:02:35.0138 --- {http-nio-23333-exec-1} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
-2019-11-05 09:02:35.0138 --- {http-nio-23333-exec-1} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Writing [{data={pages=3, articles=[ArticleVO(id=26, title=测试文章发布------更新-tag-删除, articleAbstract=```java
+2019-11-07 00:05:00.0623 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /home/ningmengmao/Pictures/2019-11-7.jpg
+2019-11-07 00:05:00.0640 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /media/ningmengmao/repository/code/git/vue_demo2/static/images/2019-11-7.jpg
+2019-11-07 12:05:00.0639 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /home/ningmengmao/Pictures/2019-11-7.jpg
+2019-11-07 12:05:00.0641 --- {scheduling-1} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /media/ningmengmao/repository/code/git/vue_demo2/static/images/2019-11-7.jpg
+2019-11-07 13:01:15.0625 --- {Thread-43} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskScheduler --- Shutting down ExecutorService 'taskScheduler'
+2019-11-07 13:01:15.0626 --- {Thread-43} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskExecutor --- Shutting down ExecutorService 'applicationTaskExecutor'
+2019-11-07 13:01:15.0628 --- {Thread-43} --- INFO  --- com.alibaba.druid.pool.DruidDataSource --- {dataSource-4} closed
+2019-11-07 13:01:16.0925 --- {main} --- INFO  --- com.ningmeng.vueblog.other.ImageUtilTest --- Starting ImageUtilTest on TM1701 with PID 13317 (started by ningmengmao in /home/ningmengmao/IdeaProjects/vue-blog)
+2019-11-07 13:01:16.0927 --- {main} --- INFO  --- com.ningmeng.vueblog.other.ImageUtilTest --- No active profile set, falling back to default profiles: default
+2019-11-07 13:01:16.0981 --- {main} --- DEBUG --- o.s.w.context.support.GenericWebApplicationContext --- Refreshing org.springframework.web.context.support.GenericWebApplicationContext@7d61eccf
+2019-11-07 13:01:17.0535 --- {restartedMain} --- INFO  --- com.ningmeng.vueblog.VueBlogApplication --- Starting VueBlogApplication on TM1701 with PID 29015 (/home/ningmengmao/IdeaProjects/vue-blog/target/classes started by ningmengmao in /home/ningmengmao/IdeaProjects/vue-blog)
+2019-11-07 13:01:17.0536 --- {restartedMain} --- INFO  --- com.ningmeng.vueblog.VueBlogApplication --- No active profile set, falling back to default profiles: default
+2019-11-07 13:01:18.0054 --- {restartedMain} --- INFO  --- o.s.d.r.config.RepositoryConfigurationDelegate --- Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-11-07 13:01:18.0055 --- {restartedMain} --- INFO  --- o.s.d.r.config.RepositoryConfigurationDelegate --- Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-11-07 13:01:18.0062 --- {restartedMain} --- INFO  --- o.s.d.r.config.RepositoryConfigurationDelegate --- Finished Spring Data repository scanning in 7ms. Found 0 repository interfaces.
+2019-11-07 13:01:18.0185 --- {restartedMain} --- INFO  --- o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker --- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$518b62a3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-11-07 13:01:18.0222 --- {main} --- INFO  --- o.s.d.r.config.RepositoryConfigurationDelegate --- Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-11-07 13:01:18.0225 --- {main} --- INFO  --- o.s.d.r.config.RepositoryConfigurationDelegate --- Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-11-07 13:01:18.0273 --- {main} --- INFO  --- o.s.d.r.config.RepositoryConfigurationDelegate --- Finished Spring Data repository scanning in 29ms. Found 0 repository interfaces.
+2019-11-07 13:01:18.0568 --- {restartedMain} --- INFO  --- o.s.boot.web.embedded.tomcat.TomcatWebServer --- Tomcat initialized with port(s): 23333 (http)
+2019-11-07 13:01:18.0569 --- {restartedMain} --- INFO  --- org.apache.catalina.core.StandardService --- Starting service [Tomcat]
+2019-11-07 13:01:18.0569 --- {restartedMain} --- INFO  --- org.apache.catalina.core.StandardEngine --- Starting Servlet engine: [Apache Tomcat/9.0.17]
+2019-11-07 13:01:18.0577 --- {restartedMain} --- INFO  --- o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] --- Initializing Spring embedded WebApplicationContext
+2019-11-07 13:01:18.0578 --- {restartedMain} --- DEBUG --- org.springframework.web.context.ContextLoader --- Published root WebApplicationContext as ServletContext attribute with name [org.springframework.web.context.WebApplicationContext.ROOT]
+2019-11-07 13:01:18.0578 --- {restartedMain} --- INFO  --- org.springframework.web.context.ContextLoader --- Root WebApplicationContext: initialization completed in 1031 ms
+2019-11-07 13:01:19.0132 --- {restartedMain} --- INFO  --- c.a.d.s.b.a.DruidDataSourceAutoConfigure --- Init DruidDataSource
+2019-11-07 13:01:19.0400 --- {main} --- INFO  --- o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker --- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7be1f5b9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-11-07 13:01:20.0021 --- {restartedMain} --- INFO  --- com.alibaba.druid.pool.DruidDataSource --- {dataSource-5} inited
+2019-11-07 13:01:20.0928 --- {restartedMain} --- DEBUG --- o.s.web.servlet.handler.SimpleUrlHandlerMapping --- Patterns [/**/favicon.ico] in 'faviconHandlerMapping'
+2019-11-07 13:01:20.0980 --- {main} --- INFO  --- c.a.d.s.b.a.DruidDataSourceAutoConfigure --- Init DruidDataSource
+2019-11-07 13:01:21.0431 --- {restartedMain} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskExecutor --- Initializing ExecutorService 'applicationTaskExecutor'
+2019-11-07 13:01:21.0455 --- {restartedMain} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerAdapter --- ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2019-11-07 13:01:21.0536 --- {restartedMain} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- 36 mappings in 'requestMappingHandlerMapping'
+2019-11-07 13:01:21.0578 --- {restartedMain} --- DEBUG --- o.s.web.servlet.handler.SimpleUrlHandlerMapping --- Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2019-11-07 13:01:21.0588 --- {restartedMain} --- DEBUG --- o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver --- ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2019-11-07 13:01:21.0974 --- {restartedMain} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskScheduler --- Initializing ExecutorService 'taskScheduler'
+2019-11-07 13:01:22.0063 --- {restartedMain} --- INFO  --- o.s.b.d.autoconfigure.OptionalLiveReloadServer --- LiveReload server is running on port 35729
+2019-11-07 13:01:22.0141 --- {restartedMain} --- INFO  --- o.s.boot.web.embedded.tomcat.TomcatWebServer --- Tomcat started on port(s): 23333 (http) with context path ''
+2019-11-07 13:01:22.0142 --- {restartedMain} --- INFO  --- com.ningmeng.vueblog.VueBlogApplication --- Started VueBlogApplication in 4.678 seconds (JVM running for 61069.11)
+2019-11-07 13:01:22.0144 --- {restartedMain} --- INFO  --- o.s.b.d.a.ConditionEvaluationDeltaLoggingListener --- Condition evaluation unchanged
+2019-11-07 13:01:22.0445 --- {main} --- INFO  --- com.alibaba.druid.pool.DruidDataSource --- {dataSource-1} inited
+2019-11-07 13:01:25.0082 --- {main} --- DEBUG --- o.s.web.servlet.handler.SimpleUrlHandlerMapping --- Patterns [/**/favicon.ico] in 'faviconHandlerMapping'
+2019-11-07 13:01:25.0923 --- {main} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskExecutor --- Initializing ExecutorService 'applicationTaskExecutor'
+2019-11-07 13:01:25.0984 --- {main} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerAdapter --- ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2019-11-07 13:01:26.0459 --- {main} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- 36 mappings in 'requestMappingHandlerMapping'
+2019-11-07 13:01:26.0532 --- {main} --- DEBUG --- o.s.web.servlet.handler.SimpleUrlHandlerMapping --- Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2019-11-07 13:01:26.0560 --- {main} --- DEBUG --- o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver --- ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2019-11-07 13:01:27.0233 --- {main} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskScheduler --- Initializing ExecutorService 'taskScheduler'
+2019-11-07 13:01:27.0411 --- {main} --- INFO  --- com.ningmeng.vueblog.other.ImageUtilTest --- Started ImageUtilTest in 11.125 seconds (JVM running for 12.471)
+2019-11-07 13:01:28.0362 --- {main} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /home/ningmengmao/Pictures/2019-11-7.jpg
+2019-11-07 13:01:28.0364 --- {main} --- INFO  --- com.ningmeng.vueblog.util.ImageUtils --- 更新背景图片: /media/ningmengmao/repository/code/git/vue_demo2/static/images/2019-11-7.jpg
+2019-11-07 13:01:28.0416 --- {Thread-3} --- DEBUG --- o.s.w.context.support.GenericWebApplicationContext --- Closing org.springframework.web.context.support.GenericWebApplicationContext@7d61eccf, started on Thu Nov 07 13:01:16 CST 2019
+2019-11-07 13:01:28.0427 --- {Thread-3} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskScheduler --- Shutting down ExecutorService 'taskScheduler'
+2019-11-07 13:01:28.0428 --- {Thread-3} --- INFO  --- o.s.scheduling.concurrent.ThreadPoolTaskExecutor --- Shutting down ExecutorService 'applicationTaskExecutor'
+2019-11-07 13:01:28.0437 --- {Thread-3} --- INFO  --- com.alibaba.druid.pool.DruidDataSource --- {dataSource-1} closed
+2019-11-07 13:01:39.0387 --- {http-nio-23333-exec-2} --- INFO  --- o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] --- Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-11-07 13:01:39.0387 --- {http-nio-23333-exec-2} --- INFO  --- org.springframework.web.servlet.DispatcherServlet --- Initializing Servlet 'dispatcherServlet'
+2019-11-07 13:01:39.0387 --- {http-nio-23333-exec-2} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Detected StandardServletMultipartResolver
+2019-11-07 13:01:39.0413 --- {http-nio-23333-exec-2} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2019-11-07 13:01:39.0413 --- {http-nio-23333-exec-2} --- INFO  --- org.springframework.web.servlet.DispatcherServlet --- Completed initialization in 26 ms
+2019-11-07 13:01:39.0413 --- {http-nio-23333-exec-2} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- GET "/api/admin/test1", parameters={}
+2019-11-07 13:01:39.0413 --- {http-nio-23333-exec-2} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- Mapped to public void com.ningmeng.vueblog.controller.AdminController.test1() throws com.ningmeng.vueblog.exception.GithubTimeOutException
+2019-11-07 13:01:39.0432 --- {http-nio-23333-exec-2} --- DEBUG --- o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver --- Using @ExceptionHandler public java.util.Map<java.lang.String, java.lang.Object> com.ningmeng.vueblog.exceptionHandler.GlobalControllerExceptionHandler.githubConnectTimeOutHandler()
+2019-11-07 13:01:39.0433 --- {http-nio-23333-exec-2} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2019-11-07 13:01:39.0433 --- {http-nio-23333-exec-2} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Writing [{errorMessage=服务端链接github超时,请重试}]
+2019-11-07 13:01:39.0434 --- {http-nio-23333-exec-2} --- WARN  --- o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver --- Resolved [com.ningmeng.vueblog.exception.GithubTimeOutException: test]
+2019-11-07 13:01:39.0434 --- {http-nio-23333-exec-2} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Completed 500 INTERNAL_SERVER_ERROR
+2019-11-07 20:39:59.0514 --- {http-nio-23333-exec-3} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- GET "/api/articles/1", parameters={}
+2019-11-07 20:39:59.0515 --- {http-nio-23333-exec-4} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- GET "/api/side", parameters={}
+2019-11-07 20:39:59.0516 --- {http-nio-23333-exec-4} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- Mapped to public java.util.Map<java.lang.String, java.lang.Object> com.ningmeng.vueblog.controller.SideBarController.getInfo()
+2019-11-07 20:39:59.0516 --- {http-nio-23333-exec-3} --- DEBUG --- o.s.w.s.m.m.a.RequestMappingHandlerMapping --- Mapped to public java.util.Map<java.lang.String, java.lang.Object> com.ningmeng.vueblog.controller.ArticleController.getArticleByPageNum(java.lang.Integer)
+2019-11-07 20:39:59.0546 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- ==>  Preparing: SELECT id, title, abstract, content, views, create_time, update_time, is_top FROM b_article WHERE id IN (SELECT t.article_id FROM (SELECT article_id, count(article_id) coun FROM b_comment GROUP BY article_id ORDER BY coun LIMIT 4) AS t) 
+2019-11-07 20:39:59.0548 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- ==> Parameters: 
+2019-11-07 20:39:59.0551 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostComment --- <==      Total: 1
+2019-11-07 20:39:59.0553 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- ==>  Preparing: SELECT id, title, abstract, content, views, create_time, update_time, is_top FROM b_article ORDER BY views DESC LIMIT 4 
+2019-11-07 20:39:59.0554 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- ==> Parameters: 
+2019-11-07 20:39:59.0555 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getByMostView --- <==      Total: 4
+2019-11-07 20:39:59.0578 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- ==>  Preparing: SELECT COUNT(1) FROM b_article 
+2019-11-07 20:39:59.0578 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- ==> Parameters: 
+2019-11-07 20:39:59.0579 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.selectCount --- <==      Total: 1
+2019-11-07 20:39:59.0599 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- ==>  Preparing: SELECT COUNT(1) FROM b_comment 
+2019-11-07 20:39:59.0600 --- {http-nio-23333-exec-3} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2019-11-07 20:39:59.0600 --- {http-nio-23333-exec-3} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Writing [{data={pages=3, articles=[ArticleVO(id=26, title=测试文章发布------更新-tag-删除, articleAbstract=```java
 @Ena (truncated)...]
-2019-11-05 09:02:35.0139 --- {http-nio-23333-exec-1} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Completed 200 OK
+2019-11-07 20:39:59.0601 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- ==> Parameters: 
+2019-11-07 20:39:59.0604 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.CommentMapper.selectCount --- <==      Total: 1
+2019-11-07 20:39:59.0609 --- {http-nio-23333-exec-3} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Completed 200 OK
+2019-11-07 20:39:59.0611 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- ==>  Preparing: SELECT sum(views) FROM b_article 
+2019-11-07 20:39:59.0611 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- ==> Parameters: 
+2019-11-07 20:39:59.0612 --- {http-nio-23333-exec-4} --- DEBUG --- c.n.vueblog.mapper.ArticleMapper.getViewsTotal --- <==      Total: 1
+2019-11-07 20:39:59.0613 --- {http-nio-23333-exec-4} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2019-11-07 20:39:59.0613 --- {http-nio-23333-exec-4} --- DEBUG --- o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor --- Writing [{data={mostComment=[{id=23, title=title}], mostView=[{id=23, title=title}, {id=26, title=测试文章发布----- (truncated)...]
+2019-11-07 20:39:59.0614 --- {http-nio-23333-exec-4} --- DEBUG --- org.springframework.web.servlet.DispatcherServlet --- Completed 200 OK
