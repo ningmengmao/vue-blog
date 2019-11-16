@@ -14,4 +14,8 @@ public interface TimelineService {
     List<Timeline> getAll();
 
     int insert(Timeline timeline);
+
+    void delete(int id);
+
+    void update(Timeline timeline);
 }

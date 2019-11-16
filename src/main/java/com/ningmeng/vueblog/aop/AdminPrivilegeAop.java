@@ -2,6 +2,7 @@ package com.ningmeng.vueblog.aop;
 
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.ningmeng.vueblog.entity.User;
+import com.ningmeng.vueblog.exception.NullAuthHearException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -52,14 +53,19 @@ public class AdminPrivilegeAop {
             }
         }
 
-        String authorization = request.getHeader("Authorization");
+        String authorization = null;
+        try {
+            authorization = request.getHeader("Authorization");
+        } catch (NullPointerException e) {
+            throw new NullAuthHearException("未携带token");
+        }
         if (authorization != null) {
             String token = authorization.replace("Bearer ", "");
             User user = (User) redisTemplate.opsForValue().get("token-" + token);
             if (Objects.nonNull(user)) {
                 if (user.getAccountId().equals(32759211L) && "https://github.com/ningmengmao".equals(user.getUserUrl())) {
                     String signature = joinPoint.getSignature().getName();
-                    log.info("执行: " + signature + " ,参数: " + inputArg.toString());
+                    log.info("执行: " + joinPoint.getTarget().getClass().getCanonicalName() + "." + signature + " ,参数: " + inputArg.toString());
                     return joinPoint.proceed(args);
                 } else {
                     response.sendError(403, "无权访问");

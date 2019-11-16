@@ -2,7 +2,6 @@ package com.ningmeng.vueblog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ningmeng.vueblog.entity.Article;
-import com.ningmeng.vueblog.vo.ArticleVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +24,17 @@ public class ArticleServiceTest {
         System.out.println(1);
     }
 
-    @Test
-    public void test1(){
-        Article byId = articleService.findById(23);
-        ArticleVO articleVO = new ArticleVO(byId, null);
-        System.out.println(1);
-    }
+//    @Test
+//    public void test1(){
+//        Article byId = articleService.findById(23);
+//        ArticleVO articleVO = new ArticleVO(byId, null);
+//        System.out.println(1);
+//    }
+
+//    @Test
+//    public void test2(){
+//        articleService.delete(23);
+//    }
 
 
 }

@@ -49,7 +49,7 @@
         where id = #{id}
     </select>
 
-    <select id="selectByTagId" resultMap="article">
+    <select id="selectPageByTagId" resultMap="article">
         select id, title, abstract, content, views, create_time, update_time, is_top
         from b_article
         where id in (
@@ -57,6 +57,8 @@
             from b_article_tag
             where tag_id = #{tagId}
         )
+        order by create_time desc
+        limit #{start}, #{pageSize}
     </select>
 
     <select id="findByUpdateTimeBetween" resultMap="article">
@@ -114,6 +116,19 @@
         from b_article
     </select>
 
+    <select id="findByTagIdTotal" resultType="int">
+        select count(*)
+        from b_article
+        where b_article.id in (
+            select article_id
+            from b_article_tag
+            where tag_id = #{tag_id}
+        )
+    </select>
+
+    <delete id="deleteByArticleId">
+
+    </delete>
 
 
 <!--    <resultMap id="base_view_article" type="com.ningmeng.vueblog.entity.Article">-->
@@ -146,9 +161,15 @@
 <!--        </collection>-->
 <!--    </resultMap>-->
 
-<!--    <select id="selectByTagId" resultMap="views_article" >-->
-<!--        select * from v_article_tag where tag_id = #{id}-->
-<!--    </select>-->
+    <select id="selectByTagId" resultMap="base_article">
+        select *
+        from b_article
+        where b_article.id in (
+            select article_id
+            from b_article_tag
+            where tag_id = #{tag_id}
+        )
+    </select>
 
 <!--    <select id="selectByArticleId" resultMap="article">-->
 <!--        select * from b_article where id = #{id}-->

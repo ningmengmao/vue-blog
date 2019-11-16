@@ -81,10 +81,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Cacheable(cacheNames = "articlePageByTagId", key = "#id + '-' + #pageNum")
     @Transactional(readOnly = true)
-    public IPage<Article> findByTagId(int id, int pageNum) {
+    public List<Article> findByTagId(int id, int pageNum) {
         if (pageNum < 1)
             throw new RuntimeException("页码必须大于0!!");
-        return articleMapper.selectByTagId(new Page<Article>(pageNum, PAGE_SIZE), id);
+        return articleMapper.selectPageByTagId((pageNum - 1) * PAGE_SIZE, PAGE_SIZE, id);
     }
 
     @Override
@@ -192,17 +192,22 @@ public class ArticleServiceImpl implements ArticleService {
                     @CacheEvict(cacheNames = "article", key = "#id")
             }
     )
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int delete(int id) {
-        int i = articleMapper.deleteById(id);
-        commentService.deleteByArticleId(id);
         articleTagMapper.deleteByArticleId(id);
+        commentService.deleteByArticleId(id);
+        int i = articleMapper.deleteById(id);
         return i;
     }
 
     @Override
     public Set<Comment> getParentCommentById(Integer articleId) {
         return commentService.getParentCommentByArticleId(articleId);
+    }
+
+    @Override
+    public int findByTagIdTotal(Integer id) {
+        return articleMapper.findByTagIdTotal(id);
     }
 
     @Override

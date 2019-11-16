@@ -34,8 +34,23 @@ public class TimelineController {
     @AdminAccessAnnotation
     @PostMapping("")
     public void addTimeline(@RequestBody Timeline timeline, HttpServletResponse response, HttpServletRequest request) {
+        timeline.setCreateTime(timeline.getCreateTime() / 1000);
         timelineService.insert(timeline);
         response.setStatus(200);
+    }
+
+    @AdminAccessAnnotation
+    @PutMapping("/{id}")
+    public void updateTimeline(@PathVariable("id") int id, @RequestBody Timeline timeline, HttpServletResponse response, HttpServletRequest request) {
+        timeline.setId(id);
+        timeline.setCreateTime(timeline.getCreateTime() / 1000);
+        timelineService.update(timeline);
+    }
+
+    @AdminAccessAnnotation
+    @DeleteMapping("/{id}")
+    public void delTimeline(@PathVariable("id") int id, HttpServletResponse response, HttpServletRequest request) {
+        timelineService.delete(id);
     }
 
     @Autowired

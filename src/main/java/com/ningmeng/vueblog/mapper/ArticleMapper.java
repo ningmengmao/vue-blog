@@ -11,7 +11,8 @@ import java.util.List;
 
 public interface ArticleMapper extends BaseMapper<Article> {
 
-    IPage<Article> selectByTagId(Page page, @Param("tagId") int id);
+
+    List<Article> selectPageByTagId(@Param("start") int start, @Param("pageSize") int pageSize, @Param("tagId") int id);
 
     Article selectByArticleId(int id);
 
@@ -30,4 +31,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     Integer getViewsTotal();
 
     List<Integer> selectIds();
+
+    int findByTagIdTotal(@Param("tag_id") Integer id);
 }

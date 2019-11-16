@@ -10,8 +10,8 @@ index-path: http://localhost:8080/
 github:
   client_id: 70ad6f67e0e878c014cc
   client_secret: 6058bbbdde8ca1546bba6571a0982785ebecf688
-  redirect_url: http://localhost:23333/githubCallback
-  github_Auth_url: https://github.com/login/oauth/authorize?client_id=70ad6f67e0e878c014cc&redirect_uri=http://localhost:23333/githubCallback&scope=user&state=1
+  redirect_url: http://localhost:23333/api/githubCallback
+  github_Auth_url: https://github.com/login/oauth/authorize?client_id=70ad6f67e0e878c014cc&redirect_uri=http://localhost:23333/api/githubCallback&scope=user&state=1
 
 baidu:
   id: 17606837
@@ -93,6 +93,7 @@ logging:
     tomcat: org.apache.catalina, org.apache.coyote, org.apache.tomcat
   level:
     tomcat: info
+    com.baomidou.mybatisplus: debug
     com.ningmeng.vueblog.mapper: debug
     com.ningmeng.vueblog.service: debug
     com.ningmeng.vueblog.controller: debug

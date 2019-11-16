@@ -1,6 +1,7 @@
 package com.ningmeng.vueblog.exceptionHandler;
 
 import com.ningmeng.vueblog.exception.GithubTimeOutException;
+import com.ningmeng.vueblog.exception.NullAuthHearException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,6 +32,14 @@ public class GlobalControllerExceptionHandler {
     public Map<String, Object> githubConnectTimeOutHandler() {
         HashMap<String, Object> map = new HashMap<>(1);
         map.put("errorMessage", "服务端链接github超时,请重试");
+        return map;
+    }
+
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = NullAuthHearException.class)
+    public Map<String, Object> nullAuthHearExceptionHandler(Exception e) {
+        HashMap<String, Object> map = new HashMap<>(1);
+        map.put("errorMessage", e.getMessage());
         return map;
     }
 }

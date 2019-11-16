@@ -51,6 +51,8 @@ public class GlobalInterceptor implements HandlerInterceptor {
                         redisTemplate.expire("token-" + token, 1800L, TimeUnit.SECONDS);
                         cookie.setMaxAge(60 * 30);
                     }
+                } else if ("name".equals(cookie.getName())) {
+                    cookie.setMaxAge(1800);
                 }
                 cookie.setPath("/");
                 response.addCookie(cookie);

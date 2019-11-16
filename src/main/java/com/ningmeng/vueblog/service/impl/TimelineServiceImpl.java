@@ -37,6 +37,18 @@ public class TimelineServiceImpl implements TimelineService {
         return id;
     }
 
+    @CacheEvict(cacheNames = "timeline", allEntries = true)
+    @Override
+    public void delete(int id) {
+        timelineMapper.delete(id);
+    }
+
+    @CacheEvict(cacheNames = "timeline", allEntries = true)
+    @Override
+    public void update(Timeline timeline) {
+        timelineMapper.update(timeline);
+    }
+
     @Autowired
     public void setTimelineMapper(TimelineMapper timelineMapper) {
         this.timelineMapper = timelineMapper;

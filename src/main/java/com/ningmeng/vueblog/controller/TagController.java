@@ -1,6 +1,5 @@
 package com.ningmeng.vueblog.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ningmeng.vueblog.annocation.AdminAccessAnnotation;
 import com.ningmeng.vueblog.entity.Article;
 import com.ningmeng.vueblog.entity.Tag;
@@ -63,12 +62,13 @@ public class TagController {
         Tag byName = tagService.getByName(name);
         if (byName == null)
             return MyJson.toJson(MyJson.BAD_REQUEST, "tag不存在", new ArrayList<>());
-        IPage<Article> byTagId = articleService.findByTagId(byName.getId(), pageNum);
+        List<Article> byTagId = articleService.findByTagId(byName.getId(), pageNum);
+        int size = articleService.findByTagIdTotal(byName.getId());
         ArrayList<ArticleVO> articleVOS = new ArrayList<>();
-        for (Article a : byTagId.getRecords())
+        for (Article a : byTagId)
             articleVOS.add(new ArticleVO(a, null));
         HashMap<String, Object> map = new HashMap<>();
-        map.put("pages", byTagId.getPages());
+        map.put("pages", Math.ceil(size / 8.0));
         map.put("articles", articleVOS);
         return MyJson.toJson(MyJson.SUCCESS, "success", map);
     }

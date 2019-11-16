@@ -88,7 +88,7 @@ public class ArticleController {
         List<Integer> ids = articleService.articleIds();
         ids.sort(Integer::compareTo);
         // before
-        if (ids.indexOf(id) != 0){
+        if (ids.indexOf(id) > 0) {
             Article before = articleService.findById(ids.get(ids.indexOf(id) -1));
             if (before != null) {
                 HashMap<String, String> temp = new HashMap<>();

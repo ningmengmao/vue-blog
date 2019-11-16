@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -100,7 +101,7 @@ public class LoginController {
      * @param response
      * @return
      */
-    @GetMapping("/githubCallback")
+    @GetMapping("/api/githubCallback")
     public void githubLoginCallBack(GithubTokenDTO githubTokenDTO, HttpServletRequest request, HttpServletResponse response) throws GithubTimeOutException {
         response.setHeader("Access-Control-Allow-Origin", "https://github.com");
         response.setHeader("Access-Control-Allow-Methods", "GET");
@@ -121,13 +122,19 @@ public class LoginController {
             // 数据库中是否存在此用户
             User userByAccountId = userService.findUserByAccountId(githubUserDTO.getId());
             // 用户存在, name和accountId匹配, 验证成功
-            if (userByAccountId != null && userByAccountId.getUsername().equals(githubUserDTO.getName())) {
+            if (Objects.nonNull(userByAccountId) && userByAccountId.getUsername().equals(githubUserDTO.getName())) {
                 token = JwtProvider.createJWT(userByAccountId.getId(), userByAccountId.getUsername(), null, audience);
                 // token 1800s过期
                 ops.set("token-" + token, userByAccountId, 1800, TimeUnit.SECONDS);
+                if (userByAccountId.getAccountId().equals(32759211L) && "https://github.com/ningmengmao".equals(userByAccountId.getUserUrl()) && "Eric".equals(userByAccountId.getUsername())) {
+                    Cookie cookie = new Cookie("admin", Base64.getEncoder().encodeToString("我是管理员".getBytes(StandardCharsets.UTF_8)));
+                    cookie.setPath("/");
+                    cookie.setMaxAge(1800);
+                    response.addCookie(cookie);
+                }
             }
 
-            if (null == userByAccountId) {
+            if (Objects.isNull(userByAccountId)) {
                 User user = new User();
                 user.setUsername(githubUserDTO.getName());
                 user.setAccountId(githubUserDTO.getId());
@@ -139,6 +146,12 @@ public class LoginController {
                 int id = userService.addUser(user);
                 token = JwtProvider.createJWT(id, user.getUsername(), null, audience);
                 ops.set("token-" + token, user, 1800, TimeUnit.SECONDS);
+                if (user.getAccountId().equals(32759211L) && "https://github.com/ningmengmao".equals(user.getUserUrl()) && "Eric".equals(user.getUsername())) {
+                    Cookie cookie = new Cookie("admin", Base64.getEncoder().encodeToString("我是管理员".getBytes(StandardCharsets.UTF_8)));
+                    cookie.setPath("/");
+                    cookie.setMaxAge(1800);
+                    response.addCookie(cookie);
+                }
             }
             Cookie cookie = new Cookie("token", token);
             cookie.setMaxAge(1800);
@@ -157,6 +170,8 @@ public class LoginController {
                 if ("token".equals(cookie.getName())) {
                     cookie.setMaxAge(0);
                     redisTemplate.expire("token-" + cookie.getValue(), 0, TimeUnit.SECONDS);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
                 }
             }
         }
@@ -169,7 +184,7 @@ public class LoginController {
      * @param code
      * @param state
      */
-    @GetMapping("/baiduCallback")
+    @GetMapping("/api/baiduCallback")
     public void baiduLoginCallBack(String code, String state) {
         System.out.println(code + "  " + state);
     }

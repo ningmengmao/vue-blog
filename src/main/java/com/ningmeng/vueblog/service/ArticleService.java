@@ -19,7 +19,7 @@ public interface ArticleService  {
 
     Article findById(int id);
 
-    IPage<Article> findByTagId(int id, int pageNum);
+    List<Article> findByTagId(int id, int pageNum);
 
     IPage<Article> findByYearAndMonth(int year, int month, int pageNum);
 
@@ -44,4 +44,6 @@ public interface ArticleService  {
     int delete(int id);
 
     Set<Comment> getParentCommentById(Integer articleId);
+
+    int findByTagIdTotal(Integer id);
 }
