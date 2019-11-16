@@ -107,13 +107,19 @@ public class ArticleController {
                 map.put("next", temp);
             }
         }
+        int count = 0;
         while(true){
+            count += 1;
             Article random = articleService.findById(ids.indexOf(new Random().nextInt(ids.size())));
             if (random != null){
                 HashMap<String, String> temp = new HashMap<>();
                 temp.put("id", random.getId().toString());
                 temp.put("title", random.getTitle());
                 map.put("random", temp);
+                break;
+            }
+            if (count > 10) {
+                map.put("random", byId);
                 break;
             }
         }

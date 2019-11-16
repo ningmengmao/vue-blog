@@ -63,8 +63,8 @@ public class TagServiceImpl implements TagService {
             }
     )
     public int delete(int id) {
-        int i = tagMapper.deleteById(id);
         articleTagMapper.deleteByTagId(id);
+        int i = tagMapper.deleteById(id);
         return i;
     }
 

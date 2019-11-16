@@ -8,10 +8,10 @@ upload-image-path: /media/ningmengmao/repository/code/git/vue_demo2/static/image
 index-path: http://localhost:8080/
 
 github:
-  client_id: 70ad6f67e0e878c014cc
-  client_secret: 6058bbbdde8ca1546bba6571a0982785ebecf688
+  client_id: 0e6e75e59c17d0598778
+  client_secret: bcea39e82b5347913962c1496a6b432368876e53
   redirect_url: http://localhost:23333/api/githubCallback
-  github_Auth_url: https://github.com/login/oauth/authorize?client_id=70ad6f67e0e878c014cc&redirect_uri=http://localhost:23333/api/githubCallback&scope=user&state=1
+  github_Auth_url: https://github.com/login/oauth/authorize?client_id=0e6e75e59c17d0598778&redirect_uri=http://localhost:23333/api/githubCallback&scope=user&state=1
 
 baidu:
   id: 17606837

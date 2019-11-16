@@ -108,7 +108,9 @@ public class ArticleServiceImpl implements ArticleService {
             evict = {
                     @CacheEvict(cacheNames = "articlePage", allEntries = true),
                     @CacheEvict(cacheNames = "articlePageByTagId", allEntries = true),
-                    @CacheEvict(cacheNames = "articleByTime", allEntries = true)
+                    @CacheEvict(cacheNames = "articleByTime", allEntries = true),
+                    @CacheEvict(cacheNames = "allTag", allEntries = true),
+                    @CacheEvict(cacheNames = "tagsByArticleId", key = "#article.id")
             }
     )
     @Transactional
