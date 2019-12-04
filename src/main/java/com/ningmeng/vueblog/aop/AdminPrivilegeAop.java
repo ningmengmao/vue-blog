@@ -1,6 +1,5 @@
 package com.ningmeng.vueblog.aop;
 
-import com.alibaba.druid.support.http.WebStatFilter;
 import com.ningmeng.vueblog.entity.User;
 import com.ningmeng.vueblog.exception.NullAuthHearException;
 import lombok.extern.slf4j.Slf4j;
@@ -39,15 +38,13 @@ public class AdminPrivilegeAop {
     public Object validateAdminPrivilege(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         HttpServletRequest request = null;
-        WebStatFilter.StatHttpServletResponseWrapper wrapper;
         HttpServletResponse response = null;
         ArrayList<Object> inputArg = new ArrayList<>();
         for (Object arg : args) {
-            if ("RequestFacade".equals(arg.getClass().getSimpleName())) {
+            if (arg instanceof HttpServletRequest) {
                 request = (HttpServletRequest) arg;
-            } else if ("StatHttpServletResponseWrapper".equals(arg.getClass().getSimpleName())) {
-                wrapper = (WebStatFilter.StatHttpServletResponseWrapper) arg;
-                response = (HttpServletResponse) wrapper.getResponse();
+            } else if (arg instanceof HttpServletResponse) {
+                response = (HttpServletResponse) arg;
             } else {
                 inputArg.add(arg);
             }
@@ -74,7 +71,7 @@ public class AdminPrivilegeAop {
                 response.sendError(401, "token过期或不存在");
             }
         } else {
-            response.sendError(401);
+            response.sendError(401, "Authorization为空");
         }
         return new HashMap<>(1);
 

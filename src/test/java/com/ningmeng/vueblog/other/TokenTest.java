@@ -3,15 +3,11 @@ package com.ningmeng.vueblog.other;
 import com.ningmeng.vueblog.config.Audience;
 import com.ningmeng.vueblog.provider.JwtProvider;
 import com.ningmeng.vueblog.util.ImageUtils;
-import io.jsonwebtoken.Claims;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import sun.dc.pr.PRError;
-
-import java.io.IOException;
 
 /**
  * @Author: ningmengmao
